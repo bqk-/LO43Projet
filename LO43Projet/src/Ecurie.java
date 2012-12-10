@@ -1,4 +1,11 @@
 class Ecurie {
+	private String m_nom;
+	private Voiture m_vTherm;
+	private Voiture m_vElec;
+	private Voiture_hybride m_vHybride;
+	
+	/************* Constructeurs **************/
+	/** Constructeur par défaut **/
 	public Ecurie() {
 		m_nom = "";
 		m_vTherm = new Voiture();
@@ -6,11 +13,21 @@ class Ecurie {
 		m_vHybride = new Voiture_hybride();
 	}
 	
+	/** Constructeur par valeurs **/
 	public Ecurie(String nom, Voiture vTherm, Voiture vElec, Voiture_hybride vHybride) {
 		m_nom = nom;
 		m_vTherm = vTherm;
 		m_vElec = vElec;
 		m_vHybride = vHybride;
+	}
+	
+	/** Contructeur par recopie **/
+	public Ecurie(Ecurie e)
+	{
+		m_nom = e.m_nom;
+		m_vTherm = e.m_vTherm;
+		m_vElec = e.m_vElec;
+		m_vHybride = e.m_vHybride;
 	}
 	
 	/************* Accesseurs **************/
@@ -52,10 +69,4 @@ class Ecurie {
 	{
 		m_vHybride = v;
 	}
-	
-		
-	private String m_nom;
-	private Voiture m_vTherm;
-	private Voiture m_vElec;
-	private Voiture_hybride m_vHybride;
 }

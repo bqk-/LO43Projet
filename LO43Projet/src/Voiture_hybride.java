@@ -1,5 +1,11 @@
 public class Voiture_hybride {
+	private String m_nom;
+	private Voiture m_motTherm;
+	private Voiture m_motElec;
+	private Voiture m_motActuel;
 	
+	/************* Constructeurs **************/
+	/** Constructeur par défaut **/
 	public Voiture_hybride()
 	{
 		m_nom = "";
@@ -8,6 +14,7 @@ public class Voiture_hybride {
 		m_motActuel = m_motTherm;
 	}
 	
+	/** Constructeur par valeurs **/
 	public Voiture_hybride(String nom, Voiture vTherm, Voiture vElec)
 	{
 		m_nom = nom;
@@ -15,7 +22,16 @@ public class Voiture_hybride {
 		m_motElec = vElec;
 		m_motActuel = m_motTherm;
 	}
-
+	
+	/** Contructeur par recopie **/
+	public Voiture_hybride(Voiture_hybride v)
+	{
+		m_nom = v.m_nom;
+		m_motTherm = v.m_motTherm;
+		m_motElec = v.m_motElec;
+		m_motActuel = m_motTherm;
+	}
+	
 	/************* Accesseurs **************/
 	public String getNom()
 	{
@@ -73,9 +89,4 @@ public class Voiture_hybride {
 			m_motTherm.rechargePartielleBatterie();
 		}
 	}
-		
-	private String m_nom;
-	private Voiture m_motTherm;
-	private Voiture m_motElec;
-	private Voiture m_motActuel;
 }
