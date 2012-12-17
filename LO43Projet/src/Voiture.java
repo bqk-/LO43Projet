@@ -113,6 +113,7 @@ public class Voiture {
 	{
 		Temps tpsTotal = new Temps();
 		
+		return tpsTotal;
 	}
 	
 /** méthode parcourirCircuit (renvoie le tempss qu'a mis la voiture pour parcours le circuit **/
