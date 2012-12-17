@@ -1,4 +1,4 @@
-//Version Matthieu
+
 public class Voiture {
 	private String m_nom;
 	private float m_autonomieMax;
@@ -115,13 +115,14 @@ public class Voiture {
 		
 	}
 	
-/** méthode parcourirCircuit **/
-	public void parcourirCircuit(Circuit c)
+/** méthode parcourirCircuit (renvoie le tempss qu'a mis la voiture pour parcours le circuit **/
+	public Temps parcourirCircuit(Circuit c)
 	{
 		m_autonomie = m_autonomieMax;
 		boolean prevoirArretStand = false;
 		Temps tempsArretStand = new Temps();
 		Temps tempsTour = new Temps();
+		Temps tempsTotal = new Temps();
 		
 		for(int i=0 ; i < c.getNbTours() ; i++)		//fait les tours
 		{
@@ -146,8 +147,13 @@ public class Voiture {
 			}
 			//temps pour un tour
 			tempsTour.calculTempsTour(this, c);
-			
+
+			//itération du temps total
+			tempsTotal.setTps(tempsTotal.getTps()+tempsTour.getTps());
+		
 		}
+		
+		return tempsTotal;
 	}
 	
 /** méthode remplirReservoir **/
@@ -163,10 +169,10 @@ public class Voiture {
 	}*/
 	
 /** methode consomation par tour **/
-	public void conso (Circuit c)
+	/*public void conso (Circuit c)
 	{
 		
-	}
+	}*/
 	//Même chose que remplir reservoir
 	/*public void rechargePartielleBatterie()
 	{
