@@ -13,11 +13,12 @@ public class FenSaison extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNomSaison;
+	private JLabel lblNomSaison;
+	private JLabel lblStatus;
 	private JButton btnValider;
 	private JButton btnAnnuler;
 	private JButton btnSupprimer;
-	private JLabel lblNomSaison;
-	private JLabel lblStatus;
+
 	
 	public FenSaison() {
 		setVisible(true);
@@ -26,21 +27,24 @@ public class FenSaison extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("Cr\u00E9ation/Edition d'une saison");
 		getContentPane().setLayout(null);
-		
-		lblNomSaison = new JLabel("Nom de la saison :");
-		lblNomSaison.setBounds(10, 13, 103, 16);
-		getContentPane().add(lblNomSaison);
-		
+	
+	/** TextBox **/
 		txtNomSaison = new JTextField();
 		txtNomSaison.setColumns(10);
 		txtNomSaison.setBounds(119, 11, 140, 20);
 		getContentPane().add(txtNomSaison);
 		
+	/** Label **/
+		lblNomSaison = new JLabel("Nom de la saison :");
+		lblNomSaison.setBounds(10, 13, 103, 16);
+		getContentPane().add(lblNomSaison);
+		
 		lblStatus = new JLabel("! Entrez un nom");
 		lblStatus.setFont(new Font("Dialog", Font.ITALIC, 12));
 		lblStatus.setBounds(269, 13, 115, 16);
 		getContentPane().add(lblStatus);
-		
+
+	/** Button **/
 		btnValider = new JButton("Valider");
 		btnValider.setBounds(278, 62, 98, 26);
 		btnValider.addActionListener(new GestionBoutons());

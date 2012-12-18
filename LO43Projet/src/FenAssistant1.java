@@ -1,8 +1,4 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +8,7 @@ public class FenAssistant1 extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private JLabel lblEcurie;
 	private JLabel lblVoitures;
 	private JLabel lblVoitTherm;
@@ -21,6 +18,8 @@ public class FenAssistant1 extends JFrame {
 	private JComboBox<Voiture> boxVoitTherm;
 	private JComboBox<Voiture> boxVoitElec;
 	private JComboBox<Voiture_hybride> boxVoitHybr;
+	private JSeparator sepHaut;
+	private JSeparator sepBas;	
 	private JButton btnNouvEcurie;
 	private JButton btnEditerEcurie;
 	private JButton btnNouvVoitTherm;
@@ -30,8 +29,6 @@ public class FenAssistant1 extends JFrame {
 	private JButton btnNouvVoitHybr;
 	private JButton btnEditerVoitHybr;
 	private JButton btnValider;
-	private JSeparator sepHaut;
-	private JSeparator sepBas;	
 	
 	public FenAssistant1() {
 		setVisible(true);
@@ -40,16 +37,67 @@ public class FenAssistant1 extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("Assistant de cr\u00E9ation (1/2)");
 		getContentPane().setLayout(null);
-		
+	
+	/** Label **/
 		lblEcurie = new JLabel("Choix de l'\u00E9curie :");
 		lblEcurie.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblEcurie.setBounds(10, 0, 143, 36);
 		getContentPane().add(lblEcurie);
 		
+		lblVoitures = new JLabel("Choix des voitures :");
+		lblVoitures.setFont(new Font("Dialog", Font.BOLD, 14));
+		lblVoitures.setBounds(10, 69, 143, 25);
+		getContentPane().add(lblVoitures);
+		
+		lblVoitTherm = new JLabel("Voiture thermique :");
+		lblVoitTherm.setBounds(20, 97, 108, 17);
+		getContentPane().add(lblVoitTherm);
+		
+		lblVoitElec = new JLabel("Voiture \u00E9lectrique :");
+		lblVoitElec.setBounds(20, 153, 108, 17);
+		getContentPane().add(lblVoitElec);
+		
+		lblVoitHybr = new JLabel("Voiture hybride :");
+		lblVoitHybr.setBounds(20, 209, 108, 17);
+		getContentPane().add(lblVoitHybr);
+		
+	/** ComboBox **/
 		boxEcurie = new JComboBox<Ecurie>();
 		lblEcurie.setLabelFor(boxEcurie);
 		boxEcurie.setBounds(20, 33, 188, 25);
 		getContentPane().add(boxEcurie);
+		
+		boxVoitTherm = new JComboBox<Voiture>();
+		boxVoitTherm.setBounds(20, 117, 188, 25);
+		getContentPane().add(boxVoitTherm);
+		
+		boxVoitElec = new JComboBox<Voiture>();
+		boxVoitElec.setBounds(20, 173, 188, 25);
+		getContentPane().add(boxVoitElec);
+		
+		boxVoitHybr = new JComboBox<Voiture_hybride>();
+		boxVoitHybr.setBounds(20, 229, 188, 25);
+		getContentPane().add(boxVoitHybr);
+		
+	/** Separator **/	
+		sepHaut = new JSeparator();
+		sepHaut.setBounds(0, 66, 434, 20);
+		getContentPane().add(sepHaut);
+		
+		sepBas = new JSeparator();
+		sepBas.setBounds(0, 275, 434, 10);
+		getContentPane().add(sepBas);
+	
+	/** Button **/
+		btnNouvVoitElec = new JButton("Nouvelle...");
+		btnNouvVoitElec.setBounds(218, 172, 98, 26);
+		btnNouvVoitElec.addActionListener(new GestionBoutons());
+		getContentPane().add(btnNouvVoitElec);
+		
+		btnEditerVoitElec = new JButton("Editer");
+		btnEditerVoitElec.setBounds(326, 172, 98, 26);
+		btnEditerVoitElec.addActionListener(new GestionBoutons());
+		getContentPane().add(btnEditerVoitElec);
 		
 		btnNouvEcurie = new JButton("Nouvelle...");
 		btnNouvEcurie.setBounds(218, 32, 98, 26);
@@ -61,19 +109,6 @@ public class FenAssistant1 extends JFrame {
 		btnEditerEcurie.addActionListener(new GestionBoutons());
 		getContentPane().add(btnEditerEcurie);
 		
-		sepHaut = new JSeparator();
-		sepHaut.setBounds(0, 66, 434, 20);
-		getContentPane().add(sepHaut);
-		
-		lblVoitures = new JLabel("Choix des voitures :");
-		lblVoitures.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblVoitures.setBounds(10, 69, 143, 25);
-		getContentPane().add(lblVoitures);
-		
-		boxVoitTherm = new JComboBox<Voiture>();
-		boxVoitTherm.setBounds(20, 117, 188, 25);
-		getContentPane().add(boxVoitTherm);
-		
 		btnNouvVoitTherm = new JButton("Nouvelle...");
 		btnNouvVoitTherm.setBounds(218, 116, 98, 26);
 		btnNouvVoitTherm.addActionListener(new GestionBoutons());
@@ -83,36 +118,6 @@ public class FenAssistant1 extends JFrame {
 		btnEditerVoitTherm.setBounds(326, 116, 98, 26);
 		btnEditerVoitTherm.addActionListener(new GestionBoutons());
 		getContentPane().add(btnEditerVoitTherm);
-		
-		lblVoitTherm = new JLabel("Voiture thermique :");
-		lblVoitTherm.setBounds(20, 97, 108, 17);
-		getContentPane().add(lblVoitTherm);
-		
-		lblVoitElec = new JLabel("Voiture \u00E9lectrique :");
-		lblVoitElec.setBounds(20, 153, 108, 17);
-		getContentPane().add(lblVoitElec);
-		
-		boxVoitElec = new JComboBox<Voiture>();
-		boxVoitElec.setBounds(20, 173, 188, 25);
-		getContentPane().add(boxVoitElec);
-		
-		btnNouvVoitElec = new JButton("Nouvelle...");
-		btnNouvVoitElec.setBounds(218, 172, 98, 26);
-		btnNouvVoitElec.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvVoitElec);
-		
-		btnEditerVoitElec = new JButton("Editer");
-		btnEditerVoitElec.setBounds(326, 172, 98, 26);
-		btnEditerVoitElec.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerVoitElec);
-		
-		lblVoitHybr = new JLabel("Voiture hybride :");
-		lblVoitHybr.setBounds(20, 209, 108, 17);
-		getContentPane().add(lblVoitHybr);
-		
-		boxVoitHybr = new JComboBox<Voiture_hybride>();
-		boxVoitHybr.setBounds(20, 229, 188, 25);
-		getContentPane().add(boxVoitHybr);
 		
 		btnNouvVoitHybr = new JButton("Nouvelle...");
 		btnNouvVoitHybr.setBounds(218, 228, 98, 26);
@@ -128,12 +133,7 @@ public class FenAssistant1 extends JFrame {
 		btnValider.setBounds(325, 287, 98, 26);
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
-		
-		sepBas = new JSeparator();
-		sepBas.setBounds(0, 275, 434, 10);
-		getContentPane().add(sepBas);
-		
-		
+
 		setVisible(true);
 	}
 	

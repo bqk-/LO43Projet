@@ -40,29 +40,12 @@ public class FenAssistant2 extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("Assistant de cr\u00E9ation (2/2)");
 		getContentPane().setLayout(null);
-		
+	
+	/** Label **/
 		lblSaison = new JLabel("Choix de la saison :");
 		lblSaison.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblSaison.setBounds(8, 0, 143, 36);
 		getContentPane().add(lblSaison);
-		
-		boxSaison = new JComboBox<Saison>();
-		boxSaison.setBounds(18, 33, 188, 25);
-		getContentPane().add(boxSaison);
-		
-		btnNouvSaison = new JButton("Nouvelle...");
-		btnNouvSaison.setBounds(216, 32, 98, 26);
-		btnNouvSaison.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvSaison);
-		
-		btnEditerSaison = new JButton("Editer");
-		btnEditerSaison.setBounds(324, 32, 98, 26);
-		btnEditerSaison.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerSaison);
-		
-		sepHaut = new JSeparator();
-		sepHaut.setBounds(-2, 66, 434, 20);
-		getContentPane().add(sepHaut);
 		
 		lblCircuits = new JLabel("Choix des circuits :");
 		lblCircuits.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -85,6 +68,12 @@ public class FenAssistant2 extends JFrame {
 		lblCircuitsSelec.setBounds(234, 119, 133, 17);
 		getContentPane().add(lblCircuitsSelec);
 		
+	/** ComboBox **/
+		boxSaison = new JComboBox<Saison>();
+		boxSaison.setBounds(18, 33, 188, 25);
+		getContentPane().add(boxSaison);
+	
+	/** Separator **/
 		sepBas = new JSeparator();
 		sepBas.setBounds(-2, 311, 436, 10);
 		getContentPane().add(sepBas);
@@ -94,6 +83,11 @@ public class FenAssistant2 extends JFrame {
 		sepMilieu.setBounds(215, 119, 8, 192);
 		getContentPane().add(sepMilieu);
 		
+		sepHaut = new JSeparator();
+		sepHaut.setBounds(-2, 66, 434, 20);
+		getContentPane().add(sepHaut);
+	
+	/** Button **/
 		btnAjouter = new JButton("=>");
 		btnAjouter.setBounds(108, 279, 98, 26);
 		btnAjouter.addActionListener(new GestionBoutons());
@@ -118,6 +112,17 @@ public class FenAssistant2 extends JFrame {
 		btnValider.setBounds(324, 321, 98, 26);
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
+		
+		btnNouvSaison = new JButton("Nouvelle...");
+		btnNouvSaison.setBounds(216, 32, 98, 26);
+		btnNouvSaison.addActionListener(new GestionBoutons());
+		getContentPane().add(btnNouvSaison);
+		
+		btnEditerSaison = new JButton("Editer");
+		btnEditerSaison.setBounds(324, 32, 98, 26);
+		btnEditerSaison.addActionListener(new GestionBoutons());
+		getContentPane().add(btnEditerSaison);
+		
 		
 		setVisible(true);
 	}
