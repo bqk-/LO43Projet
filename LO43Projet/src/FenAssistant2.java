@@ -134,6 +134,7 @@ public class FenAssistant2 extends JFrame {
 			{
 				setVisible(false);
 				dispose();
+				new FenSimulation();
 			}
 			else if (e.getSource() == btnNouvSaison)
 			{
