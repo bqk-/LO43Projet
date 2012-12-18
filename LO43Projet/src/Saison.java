@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 
-public class Saison {
+public class Saison
+{
 	private String m_nom;
 	private int m_nbCircuits;
 	private ArrayList<Circuit> m_listeCircuits;
@@ -23,12 +24,19 @@ public class Saison {
 	    m_listeCircuits = listeCircuits;
 	}
 	
+		
 	/** Contructeur par recopie **/
 	public Saison(Saison s)
 	{   
 	    m_nom = s.m_nom;
 	    m_nbCircuits = s.m_nbCircuits;
 	    m_listeCircuits = new ArrayList<Circuit>(s.m_nbCircuits);
+	    int i;
+	    for(i=0;i<m_nbCircuits;i++)
+	    {
+	    	m_listeCircuits=(ArrayList<Circuit>) s.m_listeCircuits.clone();
+	    }
+
 	}
 			
 	/************* Accesseurs **************/
@@ -59,4 +67,27 @@ public class Saison {
 	public void setListeCircuits(ArrayList<Circuit> listeCircuits) {
 		m_listeCircuits = listeCircuits;
 	}
+	
+	/*************** Fonctions ***************/
+	public void ajoutCircuit(Circuit c)
+	{
+		m_listeCircuits.add(c);
+		m_nbCircuits++;
+	}
+	
+	public void removeListeCircuits(int indice)
+	{
+		if(indice >= 0 && indice < m_nbCircuits)
+		{
+			m_listeCircuits.remove(indice);
+			m_nbCircuits--;
+		}
+	}
+	
+	/*********** gestion de Fichiers ***********/
+	/*On suppose que les fichiers écrit respectent la syntaxe établie :
+	  -dans un dossier du même nom que la classe
+	  -nom_de_l'objet.txt
+	  -les variables sont entrées une par ligne, dans l'ordre définit plus haut
+	 */
 }

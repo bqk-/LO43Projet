@@ -14,6 +14,7 @@ public class FenPrincipale extends JFrame {
 	private JButton btnQuitter;
 
 	public FenPrincipale() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setType(Type.UTILITY);
 		setTitle("RaceSimulator");
 		setSize(150,150);
@@ -27,6 +28,7 @@ public class FenPrincipale extends JFrame {
 		getContentPane().add(btnModeSimulation);
 		
 		btnModeEdition = new JButton("Mode \u00E9dition");
+		btnModeEdition.addActionListener(new GestionBoutons());
 		btnModeEdition.setBounds(10, 45, 129, 23);
 		getContentPane().add(btnModeEdition);
 		
@@ -45,9 +47,17 @@ public class FenPrincipale extends JFrame {
 			{
 	            System.exit(0); 
 			}
-			if (e.getSource() == btnModeSimulation)
+			else if (e.getSource() == btnModeSimulation)
 			{
+				setVisible(false);
+				dispose();
 				FenAssistant1 assist = new FenAssistant1();
+			}
+			else if (e.getSource() == btnModeEdition)
+			{
+				setVisible(false);
+				dispose();
+				FenEdition edit = new FenEdition();
 			}
 		}
 	}

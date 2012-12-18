@@ -86,7 +86,7 @@ public class Voiture_hybride {
 	{
 		if (m_motActuel == m_motTherm)
 		{
-			m_motTherm.rechargePartielleBatterie();
+			//m_motTherm.rechargePartielleBatterie();
 		}
 	}
 }
