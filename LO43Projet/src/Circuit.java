@@ -8,6 +8,7 @@ public class Circuit implements Cloneable
 	private float m_longueur;
 	private float m_posStand;
 	private int m_nbTours;
+	int var;
 	
 	/************* Constructeurs **************/
 	/** Constructeur par défaut **/
@@ -18,7 +19,6 @@ public class Circuit implements Cloneable
 	    m_longueur = 0;
 	    m_posStand = 0;
 	    m_nbTours = 0;
-	    enregistrerCircuitF();
 	} 
 	
 	/** Constructeur par valeurs **/
@@ -29,7 +29,6 @@ public class Circuit implements Cloneable
 	    m_longueur = longueur;
 	    m_posStand = posStand;
 	    m_nbTours = nbTours;
-	    enregistrerCircuitF();
 	}
 	/** Contructeur par recopie **/
 	public Circuit(Circuit v)
@@ -39,7 +38,6 @@ public class Circuit implements Cloneable
 	    m_longueur = v.m_longueur;
 	    m_posStand = v.m_posStand;
 	    m_nbTours = v.m_nbTours;
-	    enregistrerCircuitF();
 	}
 	
 	/************* Accesseurs **************/
@@ -111,6 +109,7 @@ public class Circuit implements Cloneable
 			String ligne;
 			//On récupère le nom du circuit
 			ligne=br.readLine();
+			m_nom=ligne;
 			//on récupère et reformate sa vitesse maximale
 			ligne=br.readLine();
 			m_vMax=Float.parseFloat(ligne);
@@ -170,5 +169,12 @@ public class Circuit implements Cloneable
 	{
 		// remplacer tout sauf les lettres et les chiffres par rien
 		return nom.replaceAll("\\W","");
+	}
+	
+	public Float filtreLongueur(Float variable)
+	{
+		if(variable <0)
+			variable=-1*variable;
+		return variable;
 	}
 }

@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FenAssistant1 extends JFrame {
 	/**
@@ -14,10 +17,10 @@ public class FenAssistant1 extends JFrame {
 	private JLabel lblVoitTherm;
 	private JLabel lblVoitElec;
 	private JLabel lblVoitHybr;
-	private JComboBox<Ecurie> boxEcurie;
-	private JComboBox<Voiture> boxVoitTherm;
-	private JComboBox<Voiture> boxVoitElec;
-	private JComboBox<Voiture_hybride> boxVoitHybr;
+	private JComboBox<String> boxEcurie;
+	private JComboBox<String> boxVoitTherm;
+	private JComboBox<String> boxVoitElec;
+	private JComboBox<String> boxVoitHybr;
 	private JSeparator sepHaut;
 	private JSeparator sepBas;	
 	private JButton btnNouvEcurie;
@@ -62,20 +65,24 @@ public class FenAssistant1 extends JFrame {
 		getContentPane().add(lblVoitHybr);
 		
 	/** ComboBox **/
-		boxEcurie = new JComboBox<Ecurie>();
+		boxEcurie = new JComboBox<String>();
+		boxEcurie.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une \u00E9curie"}));
 		lblEcurie.setLabelFor(boxEcurie);
 		boxEcurie.setBounds(20, 33, 188, 25);
 		getContentPane().add(boxEcurie);
 		
-		boxVoitTherm = new JComboBox<Voiture>();
+		boxVoitTherm = new JComboBox<String>();
+		boxVoitTherm.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une voiture"}));
 		boxVoitTherm.setBounds(20, 117, 188, 25);
 		getContentPane().add(boxVoitTherm);
 		
-		boxVoitElec = new JComboBox<Voiture>();
+		boxVoitElec = new JComboBox<String>();
+		boxVoitElec.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une voiture"}));
 		boxVoitElec.setBounds(20, 173, 188, 25);
 		getContentPane().add(boxVoitElec);
 		
-		boxVoitHybr = new JComboBox<Voiture_hybride>();
+		boxVoitHybr = new JComboBox<String>();
+		boxVoitHybr.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une voiture"}));
 		boxVoitHybr.setBounds(20, 229, 188, 25);
 		getContentPane().add(boxVoitHybr);
 		
@@ -134,7 +141,47 @@ public class FenAssistant1 extends JFrame {
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
 
+		chargerVoitures();
+		chargerEcuries();
+		
 		setVisible(true);
+	}
+	
+	public void chargerVoitures()
+	{
+		File rep = new File("Voitures");
+		File[] listeFichiers = rep.listFiles();
+		
+		for (int i = 0; i < listeFichiers.length; i++)
+		{
+			String tmp = listeFichiers[i].toString().replace("Voitures\\", "");
+			if (tmp.endsWith(".vth"))
+			{
+				tmp = tmp.replace(".vth", "");
+				boxVoitTherm.addItem(tmp);
+			}
+			else if (tmp.endsWith(".vel"))
+			{
+				tmp = tmp.replace(".vel", "");
+				boxVoitElec.addItem(tmp);
+			}
+			else if (tmp.endsWith(".vhy"))
+			{
+				tmp = tmp.replace(".vhy", "");
+				boxVoitHybr.addItem(tmp);
+			}
+		}
+	}
+	
+	public void chargerEcuries()
+	{
+		File rep = new File("Ecuries");
+		File[] listeFichiers = rep.listFiles();
+		
+		for (int i = 0; i < listeFichiers.length; i++)
+		{
+			boxEcurie.addItem(listeFichiers[i].toString().replace("Ecuries\\", "").replace(".ecu", ""));
+		}
 	}
 	
 	class GestionBoutons implements ActionListener
@@ -152,7 +199,10 @@ public class FenAssistant1 extends JFrame {
 			}
 			else if (e.getSource() == btnEditerEcurie)
 			{
-				new FenEcurie();
+				if(boxEcurie.getSelectedItem().toString().equals("Choisir une \u00E9curie")) //Nouvelle 
+					new FenEcurie();
+				else
+					new FenEcurie(boxEcurie.getSelectedItem().toString());
 			}
 			else if (e.getSource() == btnNouvVoitTherm)
 			{
