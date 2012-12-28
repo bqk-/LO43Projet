@@ -5,29 +5,23 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-
+import java.util.*;
 
 public class Saison
 {
 	private String m_nom;
-	private int m_nbCircuits;
-	private ArrayList<Circuit> m_listeCircuits;
+	public ArrayList<Circuit> m_listeCircuits= new ArrayList<Circuit>();
 	
 	/************* Constructeurs **************/
 	/** Constructeur par défaut **/
 	public Saison()
 	{
-	    m_nom = "";
-	    m_nbCircuits = 0;
-	    ArrayList<Circuit> m_listeCircuits = new ArrayList<Circuit>();
 	} 
 	
 	/** Constructeur par valeurs **/
-	public Saison(String nom, int nbCircuits, ArrayList<Circuit> listeCircuits)
+	public Saison(String nom, ArrayList<Circuit> listeCircuits)
 	{     
 	    m_nom = nom;
-	    m_nbCircuits = nbCircuits;
 	    m_listeCircuits = listeCircuits;
 	}
 	
@@ -36,13 +30,8 @@ public class Saison
 	public Saison(Saison s)
 	{   
 	    m_nom = s.m_nom;
-	    m_nbCircuits = s.m_nbCircuits;
-	    ArrayList<Circuit> m_listeCircuits = new ArrayList<Circuit>(s.m_nbCircuits);
-	    int i;
-	    for(i=0;i<m_nbCircuits;i++)
-	    {
-	    	m_listeCircuits=(ArrayList<Circuit>) s.m_listeCircuits.clone();
-	    }
+	    m_listeCircuits.ensureCapacity(s.m_listeCircuits.size());
+	    m_listeCircuits=(ArrayList<Circuit>) s.m_listeCircuits.clone();
 
 	}
 			
@@ -50,11 +39,6 @@ public class Saison
 	public String getNom()
 	{  
 	    return m_nom;
-	}
-			
-
-	public int getNbCircuits() {
-		return m_nbCircuits;
 	}
 
 	public ArrayList<Circuit> getListeCircuits() {
@@ -67,10 +51,6 @@ public class Saison
 	    m_nom=nom;
 	}
 
-	public void setNbCircuits(int nbCircuits) {
-		m_nbCircuits = nbCircuits;
-	}
-
 	public void setListeCircuits(ArrayList<Circuit> listeCircuits) {
 		m_listeCircuits = listeCircuits;
 	}
@@ -79,16 +59,16 @@ public class Saison
 	public void ajoutCircuit(Circuit c)
 	{
 		m_listeCircuits.add(c);
-		m_nbCircuits++;
 	}
 	
 	public void removeListeCircuits(int indice)
 	{
-		if(indice >= 0 && indice < m_nbCircuits)
+		if(indice >= 0 && indice < m_listeCircuits.size())
 		{
 			m_listeCircuits.remove(indice);
-			m_nbCircuits--;
 		}
+		else
+			System.out.println("Erreur, mauvais indice");
 	}
 	
 	/*********** gestion de Fichiers ***********/
@@ -100,7 +80,7 @@ public class Saison
 	
 	public void lireSaisonF(String nomFichier)
 	{
-		int i;
+		int i,taille;
 		//le chemin relatif ou se trouve le fichier
 		String fichier="Saisons/"+nomFichier+".txt";
 		try{
@@ -113,11 +93,12 @@ public class Saison
 			m_nom=ligne;
 			//on récupère et reformate le nombre de circuits associés à la saison
 			ligne=br.readLine();
-			m_nbCircuits=Integer.parseInt(ligne);
+			taille=Integer.parseInt(ligne);
 			
 			//on peut donc avec certitude ré-inserer les circuits uns par uns
-			m_listeCircuits = new ArrayList<Circuit>(m_nbCircuits);
-			for(i=0;i<m_nbCircuits;i++)
+			m_listeCircuits = new ArrayList<Circuit>();
+			m_listeCircuits.ensureCapacity(taille);
+			for(i=0;i<m_listeCircuits.size();i++)
 			{
 				ligne=br.readLine();
 				
@@ -144,8 +125,8 @@ public class Saison
 			FileWriter fw = new FileWriter (fichier);
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
-				fichierSortie.println (m_nom+"\n"+m_nbCircuits); 
-				for(i=0;i<m_nbCircuits;i++)
+				fichierSortie.println (m_nom+"\n"+m_listeCircuits.size()); 
+				for(i=0;i<m_listeCircuits.size();i++)
 				{
 					//on ajoute les noms des circuits dans le fichier de saison
 					fichierSortie.println (m_listeCircuits.get(i).getNom());

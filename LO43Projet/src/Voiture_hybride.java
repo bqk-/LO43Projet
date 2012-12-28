@@ -7,7 +7,7 @@ public class Voiture_hybride {
 	private String m_nom;
 	private Voiture m_motTherm;
 	private Voiture m_motElec;
-	private Voiture m_motActuel;
+	private int m_motActuel; //0=thermique, 1=electrique
 	/*Les éléments comme la distance de Calcul de la conso, la distance déjà parcouru et le 
 	 * temps d arret au stand sont stocké dans motTherm
 	 */
@@ -20,11 +20,11 @@ public class Voiture_hybride {
 		m_nom = "";
 		m_motTherm = new Voiture();
 		m_motElec = new Voiture();
-		m_motActuel = m_motTherm;
+		m_motActuel = 0;
 	}
 	public Voiture_hybride(String fileName)
 	{
-		String fichier="Voitures/"+fileName+".vty";
+		String fichier="Voitures/"+fileName+".vhy";
 		try{
 			InputStream ips=new FileInputStream(fichier); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
@@ -34,11 +34,11 @@ public class Voiture_hybride {
 			m_nom=ligne;
 			//on récupère le reste du bordel
 			ligne=br.readLine();
-			m_motTherm=new Voiture(ligne);
+			m_motTherm=new Voiture(ligne,"vth");
 			ligne=br.readLine();
-			m_motElec=new Voiture(ligne);
+			m_motElec=new Voiture(ligne,"vel");
 			ligne=br.readLine();
-			m_motActuel=new Voiture(ligne);
+			m_motActuel=Integer.parseInt(ligne);
 			br.close(); 
 		}		
 		catch (Exception e){
@@ -53,7 +53,7 @@ public class Voiture_hybride {
 		m_nom = nom;
 		m_motTherm = vTherm;
 		m_motElec = vElec;
-		m_motActuel = m_motTherm;
+		m_motActuel = 0;
 	}
 	
 	/** Contructeur par recopie **/
@@ -62,7 +62,7 @@ public class Voiture_hybride {
 		m_nom = v.m_nom;
 		m_motTherm = v.m_motTherm;
 		m_motElec = v.m_motElec;
-		m_motActuel = m_motTherm;
+		m_motActuel = 0;
 	}
 	
 	/************* Accesseurs **************/
@@ -79,6 +79,10 @@ public class Voiture_hybride {
 	public Voiture getMotElec()
 	{
 		return m_motElec;
+	}
+	public int getMotActuel()
+	{
+		return m_motActuel;
 	}
 	
 	/*************** Mutateurs ***************/
@@ -97,7 +101,7 @@ public class Voiture_hybride {
 		m_motElec = v;
 	}
 	
-	public void setMotActuel(Voiture v)
+	public void setMotActuel(int v)
 	{
 		m_motTherm = v;
 	}
@@ -106,13 +110,13 @@ public class Voiture_hybride {
 	/*************** Méthodes *****************/
 	public void switcherMoteur()
 	{
-		if (m_motActuel == m_motTherm)
+		if (m_motActuel == 0)
 		{
-			m_motActuel = m_motElec;
+			m_motActuel = 1;
 		}
 		else
 		{
-			m_motActuel = m_motTherm;
+			m_motActuel = 0;
 		}
 	}
 
@@ -154,9 +158,9 @@ public class Voiture_hybride {
 			
 		}
 		
-		if (m_motActuel == m_motElec)
+		if (m_motActuel == 1)
 		{
-			m_motActuel = m_motTherm;
+			m_motActuel = 0;
 		}
 		
 		tpsTotal.setTps(tpsTotal.getTps());
@@ -185,24 +189,27 @@ public class Voiture_hybride {
 			
 			for(float f=0; f < c.getLongueur(); f+=m_motTherm.getDistanceCalcul())		//pendant un tour calcule l autonomie tout les distancecalcul m
 			{
-				
-				if(m_motActuel.getAutonomie() <= (c.getLongueur())) //si l'autonomie du moteur n est pas suffisante pour faire un tour
+				if(m_motActuel==0) //elec
+					Voiture tmp=new Voiture(m_motTherm);
+				else
+					Voiture tmp=new Voiture(m_motElec);
+				if(tmp.getAutonomie() <= (c.getLongueur())) //si l'autonomie du moteur n est pas suffisante pour faire un tour
 				{
 					this.switcherMoteur();
-					if(m_motActuel.getAutonomie() <= (c.getLongueur()) && (i != c.getNbTours())) //si il faut s'arreter au stand et si ce n'est pas le dernier tour
+					if(tmp.getAutonomie() <= (c.getLongueur()) && (i != c.getNbTours())) //si il faut s'arreter au stand et si ce n'est pas le dernier tour
 					{
 						prevoirArretStand = true;
 					}
 					this.switcherMoteur();
 				}
 				
-				if(m_motActuel.getAutonomie() == 0) //change de moteur si panne sêche
+				if(tmp.getAutonomie() == 0) //change de moteur si panne sêche
 				{
 					this.switcherMoteur();
 				}
 				
 				
-				if(m_motActuel==m_motTherm) //triche : j ai la flemme de prendre en compte la distance parcouru quand on va au stand
+				if(m_motActuel==0) //triche : j ai la flemme de prendre en compte la distance parcouru quand on va au stand
 				{
 					distanceTherm += m_motTherm.getDistanceCalcul();
 				}
@@ -232,7 +239,7 @@ public class Voiture_hybride {
 				}
 				
 				//on décrémente l autonomie
-				m_motActuel.setAutonomie(m_motActuel.getAutonomie()-m_motActuel.getConso());
+				m_motActuel.setAutonomie(tmp.getAutonomie()-tmp.getConso());
 				//on note la distance actuelle
 				m_motTherm.setDistanceActuelle(m_motTherm.getDistanceActuelle() + m_motTherm.getDistanceCalcul());
 				

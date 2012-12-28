@@ -218,15 +218,24 @@ public class FenAssistant1 extends JFrame {
 			}
 			else if (e.getSource() == btnEditerVoitTherm)
 			{
-				new FenVoiture();
+				if(boxVoitTherm.getSelectedItem().toString().equals("Choisir une voiture")) //Nouvelle 
+					new FenVoiture();
+				else
+					new FenVoiture(boxVoitTherm.getSelectedItem().toString(),"vth");
 			}
 			else if (e.getSource() == btnEditerVoitElec)
 			{
-				new FenVoiture();
+				if(boxVoitElec.getSelectedItem().toString().equals("Choisir une voiture")) //Nouvelle 
+					new FenVoiture();
+				else
+					new FenVoiture(boxVoitElec.getSelectedItem().toString(),"vel");
 			}
 			else if (e.getSource() == btnEditerVoitHybr)
 			{
-				new FenVoiture();
+				if(boxVoitHybr.getSelectedItem().toString().equals("Choisir une voiture")) //Nouvelle 
+					new FenVoiture();
+				else
+					new FenVoiture(boxVoitHybr.getSelectedItem().toString(),"vhy");
 			}
 		}
 	}

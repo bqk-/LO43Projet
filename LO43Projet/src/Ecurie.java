@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -33,10 +34,10 @@ class Ecurie {
 			m_nom=ligne;
 			//on récupère les tutures de l'ecurie
 			ligne=br.readLine();
-			m_vTherm=new Voiture(ligne);
+			m_vTherm=new Voiture(ligne,"vth");
 			// ainsi de suite ...
 			ligne=br.readLine();
-			m_vElec=new Voiture(ligne);
+			m_vElec=new Voiture(ligne,"vel");
 			ligne=br.readLine();
 			m_vHybride=new Voiture_hybride(ligne);
 			br.close(); 
@@ -136,8 +137,11 @@ class Ecurie {
 	{
 		String fichier="Ecuries/"+m_nom+".ecu";
 		try {
-			File fw = new File (fichier);
-			fw.delete();
+			File f = new File(fichier);
+			if (f.exists())
+			{
+				f.delete();
+			}
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
