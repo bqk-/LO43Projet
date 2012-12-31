@@ -2,7 +2,14 @@ import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -189,6 +196,19 @@ public class FenAssistant1 extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnValider)
 			{
+				//Enregistrement des données pour la simulation
+				String fichier="Donnees/Simulation.txt";
+				try {
+					FileWriter fw = new FileWriter (fichier);
+					BufferedWriter bw = new BufferedWriter (fw);
+					PrintWriter fichierSortie = new PrintWriter (bw);
+					// Nom ecurie \n Voiture1 \n Voiture2 \n Voiture3
+					fichierSortie.println (boxEcurie.getSelectedItem().toString()+"\n"+boxVoitTherm.getSelectedItem().toString()+"\n"+boxVoitElec.getSelectedItem().toString()+"\n"+boxVoitHybr.getSelectedItem().toString()+"\n"); 
+					fichierSortie.close(); 
+				}
+				catch (Exception g){
+					System.out.println(g.toString());
+				}
 				setVisible(false);
 				dispose();
 	            new FenAssistant2();

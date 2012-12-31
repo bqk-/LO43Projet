@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class FenEcurie extends JFrame {
 	/**
@@ -100,8 +101,19 @@ public class FenEcurie extends JFrame {
 				}
 				else //Ancienne qu'on a modifiée, on sauvegarde dans le fichier
 				{
+					//suppression vieux fichier
+					String fichier="Ecuries/"+lblStatus.getText()+".ecu";
+					try {
+						File f = new File(fichier);
+						if (f.exists())
+						{
+							f.delete();
+						}
+					}
+					catch (Exception g){
+						System.out.println(g.toString());
+					}
 					Ecurie temp=new Ecurie(lblStatus.getText());
-					temp.deleteFile(); //Suppression du vieux fichier
 					temp.setNom(txtNomEcurie.getText()); //Filtre inclut dans le setter
 					temp.enregistrerEcurieF();	//Création du nouveau
 				}

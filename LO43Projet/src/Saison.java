@@ -25,64 +25,11 @@ public class Saison
 	    m_listeCircuits = listeCircuits;
 	}
 	
-		
-	/** Contructeur par recopie **/
-	public Saison(Saison s)
+	public Saison(String filename)
 	{   
-	    m_nom = s.m_nom;
-	    m_listeCircuits.ensureCapacity(s.m_listeCircuits.size());
-	    m_listeCircuits=(ArrayList<Circuit>) s.m_listeCircuits.clone();
-
-	}
-			
-	/************* Accesseurs **************/
-	public String getNom()
-	{  
-	    return m_nom;
-	}
-
-	public ArrayList<Circuit> getListeCircuits() {
-		return m_listeCircuits;
-	}
-
-	/*************** Mutateurs ***************/
-	public void setNom(String nom)
-	{  
-	    m_nom=nom;
-	}
-
-	public void setListeCircuits(ArrayList<Circuit> listeCircuits) {
-		m_listeCircuits = listeCircuits;
-	}
-	
-	/*************** Fonctions ***************/
-	public void ajoutCircuit(Circuit c)
-	{
-		m_listeCircuits.add(c);
-	}
-	
-	public void removeListeCircuits(int indice)
-	{
-		if(indice >= 0 && indice < m_listeCircuits.size())
-		{
-			m_listeCircuits.remove(indice);
-		}
-		else
-			System.out.println("Erreur, mauvais indice");
-	}
-	
-	/*********** gestion de Fichiers ***********/
-	/*On suppose que les fichiers écrit respectent la syntaxe établie :
-	  -dans un dossier du même nom que la classe
-	  -nom_de_l'objet.txt
-	  -les variables sont entrées une par ligne, dans l'ordre définit plus haut lors de la création
-	 */
-	
-	public void lireSaisonF(String nomFichier)
-	{
 		int i,taille;
 		//le chemin relatif ou se trouve le fichier
-		String fichier="Saisons/"+nomFichier+".txt";
+		String fichier="Saisons/"+filename+".sai";
 		try{
 			InputStream ips=new FileInputStream(fichier); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
@@ -113,9 +60,68 @@ public class Saison
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
+
 	}
 	
-	public void enregistrerSaisonSF()
+	/** Contructeur par recopie **/
+	public Saison(Saison s)
+	{   
+	    m_nom = s.m_nom;
+	    m_listeCircuits.ensureCapacity(s.m_listeCircuits.size());
+	    m_listeCircuits=(ArrayList<Circuit>) s.m_listeCircuits.clone();
+
+	}
+			
+	/************* Accesseurs **************/
+	public String getNom()
+	{  
+	    return m_nom;
+	}
+
+	public ArrayList<Circuit> getListeCircuits() {
+		return m_listeCircuits;
+	}
+
+	/*************** Mutateurs ***************/
+	public void setNom(String nom)
+	{  
+	    m_nom=this.filtreNom(nom);
+	}
+
+	public void setListeCircuits(ArrayList<Circuit> listeCircuits) {
+		m_listeCircuits = listeCircuits;
+	}
+	
+	/*************** Fonctions ***************/
+	public void ajoutCircuit(Circuit c)
+	{
+		m_listeCircuits.add(c);
+	}
+	
+	public void removeListeCircuits(int indice)
+	{
+		if(indice >= 0 && indice < m_listeCircuits.size())
+		{
+			m_listeCircuits.remove(indice);
+		}
+		else
+			System.out.println("Erreur, mauvais indice");
+	}
+	
+	public String filtreNom(String nom)
+	{
+		// remplacer tout sauf les lettres et les chiffres par rien
+		return nom.replaceAll("\\W","");
+	}
+	
+	/*********** gestion de Fichiers ***********/
+	/*On suppose que les fichiers écrit respectent la syntaxe établie :
+	  -dans un dossier du même nom que la classe
+	  -nom_de_l'objet.txt
+	  -les variables sont entrées une par ligne, dans l'ordre définit plus haut lors de la création
+	 */
+	
+	public void enregistrerSaisonF()
 	{
 		//Chemin relatif ou on enregistre le fichier saison
 		String fichier="Saisons/"+m_nom+".txt";

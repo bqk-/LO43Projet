@@ -3,7 +3,9 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
@@ -26,7 +28,7 @@ public class FenAssistant2 extends JFrame {
 	private JButton btnEditerSaison;
 	private JButton btnNouvCircuit;
 	private JButton btnEditerCircuit;
-	private JComboBox<Saison> boxSaison;
+	private JComboBox<String> boxSaison;
 	private JList<Circuit> lstCircuitsDispo;
 	private JList<Circuit> lstCircuitsSelec;
 	private JSeparator sepHaut;
@@ -69,7 +71,8 @@ public class FenAssistant2 extends JFrame {
 		getContentPane().add(lblCircuitsSelec);
 		
 	/** ComboBox **/
-		boxSaison = new JComboBox<Saison>();
+		boxSaison = new JComboBox<String>();
+		boxSaison.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une saison"}));
 		boxSaison.setBounds(18, 33, 188, 25);
 		getContentPane().add(boxSaison);
 	
@@ -122,11 +125,20 @@ public class FenAssistant2 extends JFrame {
 		btnEditerSaison.setBounds(324, 32, 98, 26);
 		btnEditerSaison.addActionListener(new GestionBoutons());
 		getContentPane().add(btnEditerSaison);
-		
+		chargerSaisons();
 		
 		setVisible(true);
 	}
-	
+	public void chargerSaisons()
+	{
+		File rep = new File("Saisons");
+		File[] listeFichiers = rep.listFiles();
+		
+		for (int i = 0; i < listeFichiers.length; i++)
+		{
+			boxSaison.addItem(listeFichiers[i].toString().replace("Saisons\\", "").replace(".sai", ""));
+		}
+	}
 	class GestionBoutons implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
@@ -142,7 +154,10 @@ public class FenAssistant2 extends JFrame {
 			}
 			else if (e.getSource() == btnEditerSaison)
 			{
-				new FenSaison();
+				if(boxSaison.getSelectedItem().toString().equals("Choisir une saison")) //Nouvelle 
+					new FenSaison();
+				else
+					new FenSaison(boxSaison.getSelectedItem().toString());
 			}
 			else if (e.getSource() == btnNouvCircuit)
 			{

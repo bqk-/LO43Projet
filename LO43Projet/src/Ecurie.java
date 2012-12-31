@@ -133,19 +133,5 @@ class Ecurie {
 		// remplacer tout sauf les lettres et les chiffres par rien
 		return nom.replaceAll("\\W","");
 	}
-	public void deleteFile()
-	{
-		String fichier="Ecuries/"+m_nom+".ecu";
-		try {
-			File f = new File(fichier);
-			if (f.exists())
-			{
-				f.delete();
-			}
-		}
-		catch (Exception e){
-			System.out.println(e.toString());
-		}
-	}
-	
+
 }
