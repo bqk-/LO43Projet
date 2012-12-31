@@ -103,7 +103,7 @@ public class Voiture_hybride {
 	
 	public void setMotActuel(int v)
 	{
-		m_motTherm = v;
+		m_motActuel = v;
 	}
 	
 	
@@ -163,7 +163,7 @@ public class Voiture_hybride {
 			m_motActuel = 0;
 		}
 		
-		tpsTotal.setTps(tpsTotal.getTps());
+		tpsTotal.setTps(tpsTotal.getTps()); //J'ai du mal à voir l'intérêt de cette ligne
 		return tpsTotal;
 	}
 	
@@ -185,14 +185,14 @@ public class Voiture_hybride {
 		{
 			distanceTherm = 0;
 			distanceElec = 0;
-			
+			Voiture tmp;
 			
 			for(float f=0; f < c.getLongueur(); f+=m_motTherm.getDistanceCalcul())		//pendant un tour calcule l autonomie tout les distancecalcul m
 			{
 				if(m_motActuel==0) //elec
-					Voiture tmp=new Voiture(m_motTherm);
+					tmp=new Voiture(m_motTherm);
 				else
-					Voiture tmp=new Voiture(m_motElec);
+					tmp=new Voiture(m_motElec);
 				if(tmp.getAutonomie() <= (c.getLongueur())) //si l'autonomie du moteur n est pas suffisante pour faire un tour
 				{
 					this.switcherMoteur();
@@ -239,7 +239,7 @@ public class Voiture_hybride {
 				}
 				
 				//on décrémente l autonomie
-				m_motActuel.setAutonomie(tmp.getAutonomie()-tmp.getConso());
+				tmp.setAutonomie(tmp.getAutonomie()-tmp.getConso());
 				//on note la distance actuelle
 				m_motTherm.setDistanceActuelle(m_motTherm.getDistanceActuelle() + m_motTherm.getDistanceCalcul());
 				
@@ -247,7 +247,7 @@ public class Voiture_hybride {
 			
 			
 			//temps pour un tour
-			tempsTour.calculTempsTourHyb(this, c, distanceTherm, distanceElec);
+			// tempsTour.calculTempsTourHyb(this, c, distanceTherm, distanceElec); //Pas compris à quoi ça sert ou ce que c'est sensé faire, mais en tout cas ça le fait pas
 			
 			//temps total de la course jusqu'à ce point
 			tempsTotal.setTps(tempsTotal.getTps()+tempsTour.getTps());
