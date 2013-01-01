@@ -51,13 +51,13 @@ public class FenPrincipale extends JFrame {
 			{
 				setVisible(false);
 				dispose();
-				FenAssistant1 assist = new FenAssistant1();
+				new FenAssistant1();
 			}
 			else if (e.getSource() == btnModeEdition)
 			{
 				setVisible(false);
 				dispose();
-				FenEdition edit = new FenEdition();
+				new FenEdition();
 			}
 		}
 	}

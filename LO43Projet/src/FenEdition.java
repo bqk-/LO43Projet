@@ -24,6 +24,8 @@ public class FenEdition extends JFrame {
 	private JPanel panCircuit;
 	private JPanel panEcurie;
 	private JPanel panVoiture;
+	private JPanel panVoitHybr;
+	private JPanel panRetour;
 	
 /** Panneau Saison **/
 	private JTextField txtNomSaison;
@@ -94,14 +96,43 @@ public class FenEdition extends JFrame {
 	private JSpinner spinConso;
 	private JRadioButton radioVoitTherm;
 	private JRadioButton radioVoitElec;
-	private AbstractButton radioVoitHybr;
 	private JComboBox<String> boxVoiture;
 	private JSeparator sepHautVoiture;
 	private JSeparator sepBasVoiture;
 	private JButton btnReinitialiserVoiture;
 	private JButton btnSupprimerVoiture;
 	private JButton btnMAJVoiture;
+	private JTextField txtNomVoitHybr;
 
+/** Panneau Voiture hybride **/
+	private JLabel lblVoitureHybride;
+	private JLabel lblNomVoitHybr;
+	private JLabel lblVMaxHybr;
+	private JLabel lblArretStandHybr;
+	private JLabel lblAutonomieHybr;
+	private JLabel lblConsoHybr;
+	private JLabel lblMoteur;
+	private JLabel lblThermique;
+	private JLabel lblElectrique;
+	private JComboBox<String> boxVoitureHybr;
+	private JSpinner spinVMaxTherm;
+	private JSpinner spinTempsArretTherm;
+	private JSpinner spinAutonomieTherm;
+	private JSpinner spinConsoTherm;
+	private JSpinner spinVMaxElec;
+	private JSpinner spinTempsArretElec;
+	private JSpinner spinAutonomieElec;
+	private JSpinner spinConsoElec;
+	private JSeparator sepHaut;
+	private JSeparator sepBas;
+	private JSeparator sepMilieu;
+	private JSeparator sepColonnes;
+	private JButton btnSupprimerVoitHybr;
+	private JButton btnReinitialiserVoitHybr;
+	private JButton btnMAJVoitHybr;
+	
+/** Panneau retour **/
+	private JButton btnMenuPrincipal;
 
 	public FenEdition() {
 		setTitle("Mode Edition");
@@ -111,8 +142,6 @@ public class FenEdition extends JFrame {
 		setVisible(true);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		
-/** Panneaux **/
 		panOnglets = new JTabbedPane(JTabbedPane.TOP);
 		panOnglets.setBounds(0, 0, 429, 367);
 		getContentPane().add(panOnglets);
@@ -128,11 +157,19 @@ public class FenEdition extends JFrame {
 		
 		panVoiture = new JPanel();
 		panVoiture.setLayout(null);
-				
+		
+		panVoitHybr = new JPanel();
+		panVoitHybr.setLayout(null);
+		
+		panRetour = new JPanel();
+		panRetour.setLayout(null);
+	
 		panOnglets.addTab("Saison", null, panSaison, null);
 		panOnglets.addTab("Circuit", null, panCircuit, null);
 		panOnglets.addTab("Ecurie", null, panEcurie, null);
 		panOnglets.addTab("Voiture", null, panVoiture, null);
+		panOnglets.addTab("Voiture hybride", null, panVoitHybr, null);
+		panOnglets.addTab("Retour", null, panRetour, null);
 		
 /** Panneau Saison **/
 	/** TextBox **/
@@ -150,7 +187,7 @@ public class FenEdition extends JFrame {
 		
 		lblSaison = new JLabel("Saison :");
 		lblSaison.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblSaison.setBounds(16, 14, 123, 14);
+		lblSaison.setBounds(16, 13, 123, 14);
 		panSaison.add(lblSaison);
 		
 		lblCircuitsDispo = new JLabel("Circuits disponibles :");
@@ -165,12 +202,12 @@ public class FenEdition extends JFrame {
 		boxSaison = new JComboBox<String>();
 		boxSaison.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une saison", "Nouvelle saison"}));
 		boxSaison.addActionListener(new GestionMenus());
-		boxSaison.setBounds(147, 11, 162, 20);		
+		boxSaison.setBounds(147, 10, 162, 20);		
 		panSaison.add(boxSaison);
 		
 	/** Separator **/
 		sepHautSaison = new JSeparator();
-		sepHautSaison.setBounds(0, 41, 429, 5);
+		sepHautSaison.setBounds(0, 40, 429, 5);
 		panSaison.add(sepHautSaison);
 		
 		sepMilieuSaison = new JSeparator();
@@ -193,7 +230,7 @@ public class FenEdition extends JFrame {
 		
 	/** Button **/
 		btnSupprimerSaison = new JButton("Supprimer");
-		btnSupprimerSaison.setBounds(321, 8, 98, 26);
+		btnSupprimerSaison.setBounds(321, 7, 98, 26);
 		btnSupprimerSaison.addActionListener(new GestionBoutons());
 		panSaison.add(btnSupprimerSaison);
 		
@@ -213,7 +250,7 @@ public class FenEdition extends JFrame {
 		panSaison.add(btnMAJSaison);		
 		
 		btnReinitialiserSaison = new JButton("R\u00E9initialiser");
-		btnReinitialiserSaison.setBounds(12, 300, 108, 26);
+		btnReinitialiserSaison.setBounds(12, 300, 105, 26);
 		btnReinitialiserSaison.addActionListener(new GestionBoutons());
 		panSaison.add(btnReinitialiserSaison);
 	
@@ -344,7 +381,7 @@ public class FenEdition extends JFrame {
 		
 		lblEcurie = new JLabel("Ecurie :");
 		lblEcurie.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblEcurie.setBounds(16, 17, 123, 14);
+		lblEcurie.setBounds(16, 13, 123, 14);
 		panEcurie.add(lblEcurie);
 		
 	/** ComboBox **/
@@ -365,7 +402,7 @@ public class FenEdition extends JFrame {
 		
 		boxEcurie = new JComboBox<String>();
 		boxEcurie.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une \u00E9curie", "Nouvelle \u00E9curie"}));
-		boxEcurie.setBounds(147, 14, 162, 20);
+		boxEcurie.setBounds(147, 10, 162, 20);
 		boxEcurie.addActionListener(new GestionMenus());
 		panEcurie.add(boxEcurie);
 		
@@ -376,17 +413,17 @@ public class FenEdition extends JFrame {
 		panEcurie.add(sepBasEcurie);
 		
 		sepHautEcurie = new JSeparator();
-		sepHautEcurie.setBounds(0, 43, 429, 5);
+		sepHautEcurie.setBounds(0, 39, 429, 5);
 		panEcurie.add(sepHautEcurie);
 		
 	/** Button **/
 		btnSupprimerEcurie = new JButton("Supprimer");
-		btnSupprimerEcurie.setBounds(321, 11, 98, 26);
+		btnSupprimerEcurie.setBounds(321, 7, 98, 26);
 		btnSupprimerEcurie.addActionListener(new GestionBoutons());
 		panEcurie.add(btnSupprimerEcurie);
 	
 		btnReinitialiserEcurie = new JButton("R\u00E9initialiser");
-		btnReinitialiserEcurie.setBounds(12, 300, 103, 26);
+		btnReinitialiserEcurie.setBounds(12, 300, 105, 26);
 		btnReinitialiserEcurie.addActionListener(new GestionBoutons());
 		panEcurie.add(btnReinitialiserEcurie);
 		
@@ -407,7 +444,7 @@ public class FenEdition extends JFrame {
 	/** Label **/
 		lblVoiture = new JLabel("Voiture :");
 		lblVoiture.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblVoiture.setBounds(11, 14, 123, 14);
+		lblVoiture.setBounds(16, 13, 123, 14);
 		panVoiture.add(lblVoiture);
 		
 		lblNomVoiture = new JLabel("Nom de la voiture :");
@@ -472,26 +509,20 @@ public class FenEdition extends JFrame {
 		radioVoitElec.setBounds(152, 220, 118, 24);
 		panVoiture.add(radioVoitElec);
 		
-		radioVoitHybr = new JRadioButton("Hybride");
-		radioVoitHybr.setMnemonic('3');
-		radioVoitHybr.setBounds(152, 248, 118, 24);
-		panVoiture.add(radioVoitHybr);
-		
 		ButtonGroup groupType = new ButtonGroup();
 		groupType.add(radioVoitTherm);
 		groupType.add(radioVoitElec);
-		groupType.add(radioVoitHybr);
 		
 	/** ComboBox **/
 		boxVoiture = new JComboBox<String>();
 		boxVoiture.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une voiture", "Nouvelle voiture"}));
-		boxVoiture.setBounds(142, 11, 162, 20);
+		boxVoiture.setBounds(147, 10, 162, 20);
 		boxVoiture.addActionListener(new GestionMenus());
 		panVoiture.add(boxVoiture);
 		
 	/** Separator **/
 		sepHautVoiture = new JSeparator();
-		sepHautVoiture.setBounds(-5, 40, 429, 5);
+		sepHautVoiture.setBounds(0, 39, 429, 5);
 		panVoiture.add(sepHautVoiture);
 		
 		sepBasVoiture = new JSeparator();
@@ -500,12 +531,12 @@ public class FenEdition extends JFrame {
 		
 	/** Button **/
 		btnReinitialiserVoiture = new JButton("R\u00E9initialiser");
-		btnReinitialiserVoiture.setBounds(11, 300, 107, 26);
+		btnReinitialiserVoiture.setBounds(12, 300, 105, 26);
 		btnReinitialiserVoiture.addActionListener(new GestionBoutons());
 		panVoiture.add(btnReinitialiserVoiture);
 		
 	    btnSupprimerVoiture = new JButton("Supprimer");
-		btnSupprimerVoiture.setBounds(316, 8, 98, 26);
+		btnSupprimerVoiture.setBounds(321, 7, 98, 26);
 		btnSupprimerVoiture.addActionListener(new GestionBoutons());
 		panVoiture.add(btnSupprimerVoiture);
 		
@@ -513,11 +544,154 @@ public class FenEdition extends JFrame {
 		btnMAJVoiture.setBounds(296, 300, 116, 26);
 		btnMAJVoiture.addActionListener(new GestionBoutons());
 		panVoiture.add(btnMAJVoiture);
+	
+/** Panneau Voiture Hybride **/
+	/** TextBox **/
+		txtNomVoitHybr = new JTextField();
+		txtNomVoitHybr.setColumns(10);
+		txtNomVoitHybr.setBounds(206, 57, 135, 20);
+		txtNomVoitHybr.addKeyListener(new FiltreTexte());
+		panVoitHybr.add(txtNomVoitHybr);
 		
+	/** Label **/
+		lblVoitureHybride = new JLabel("Voiture hybride :");
+		lblVoitureHybride.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblVoitureHybride.setBounds(16, 13, 123, 14);
+		panVoitHybr.add(lblVoitureHybride);
+		
+		lblNomVoitHybr = new JLabel("Nom de la voiture hybride :");
+		lblNomVoitHybr.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNomVoitHybr.setBounds(0, 60, 195, 14);
+		panVoitHybr.add(lblNomVoitHybr);
+		
+		lblVMaxHybr = new JLabel("Vitesse maximale :");
+		lblVMaxHybr.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblVMaxHybr.setBounds(0, 118, 142, 16);
+		panVoitHybr.add(lblVMaxHybr);
+		
+		lblArretStandHybr = new JLabel("Temps d'arr\u00EAt au stand :");
+		lblArretStandHybr.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblArretStandHybr.setBounds(0, 145, 142, 16);
+		panVoitHybr.add(lblArretStandHybr);
+		
+		lblAutonomieHybr = new JLabel("Autonomie :");
+		lblAutonomieHybr.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAutonomieHybr.setBounds(0, 173, 142, 16);
+		panVoitHybr.add(lblAutonomieHybr);
+		
+		lblConsoHybr = new JLabel("Consommation :");
+		lblConsoHybr.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblConsoHybr.setBounds(0, 201, 142, 16);
+		panVoitHybr.add(lblConsoHybr);
+		
+		lblMoteur = new JLabel("Moteur");
+		lblMoteur.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMoteur.setBounds(85, 93, 54, 14);
+		panVoitHybr.add(lblMoteur);
+		
+		lblThermique = new JLabel("Thermique");
+		lblThermique.setHorizontalAlignment(SwingConstants.CENTER);
+		lblThermique.setBounds(151, 93, 80, 14);
+		panVoitHybr.add(lblThermique);
+		
+		lblElectrique = new JLabel("Electrique");
+		lblElectrique.setHorizontalAlignment(SwingConstants.CENTER);
+		lblElectrique.setBounds(249, 93, 57, 14);
+		panVoitHybr.add(lblElectrique);
+		
+	/** ComboBox **/
+		boxVoitureHybr = new JComboBox<String>();
+		boxVoitureHybr.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une voiture", "Nouvelle voiture hybride"}));
+		boxVoitureHybr.setBounds(147, 10, 162, 20);
+		boxVoitureHybr.addActionListener(new GestionMenus());
+		panVoitHybr.add(boxVoitureHybr);
+		
+	/** Spinner **/
+		spinVMaxTherm = new JSpinner();
+		spinVMaxTherm.setBounds(161, 114, 57, 20);
+		spinVMaxTherm.setModel(new SpinnerNumberModel(new Integer(100), new Integer(0), null, new Integer(10)));
+		panVoitHybr.add(spinVMaxTherm);
+		
+		spinTempsArretTherm = new JSpinner();
+		spinTempsArretTherm.setBounds(161, 141, 57, 20);
+		spinTempsArretTherm.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
+		panVoitHybr.add(spinTempsArretTherm);
+		
+		spinAutonomieTherm = new JSpinner();
+		spinAutonomieTherm.setBounds(161, 169, 57, 20);
+		spinAutonomieTherm.setModel(new SpinnerNumberModel(new Integer(100), new Integer(1), null, new Integer(10)));
+		panVoitHybr.add(spinAutonomieTherm);
+		
+		spinConsoTherm = new JSpinner();
+		spinConsoTherm.setBounds(161, 197, 57, 20);
+		spinConsoTherm.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		panVoitHybr.add(spinConsoTherm);
+		
+		spinVMaxElec = new JSpinner();
+		spinVMaxElec.setBounds(249, 114, 57, 20);
+		spinVMaxElec.setModel(new SpinnerNumberModel(new Integer(100), new Integer(0), null, new Integer(10)));
+		panVoitHybr.add(spinVMaxElec);
+		
+		spinTempsArretElec = new JSpinner();
+		spinTempsArretElec.setBounds(249, 141, 57, 20);
+		spinTempsArretElec.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
+		panVoitHybr.add(spinTempsArretElec);
+		
+		spinAutonomieElec = new JSpinner();
+		spinAutonomieElec.setBounds(249, 169, 57, 20);
+		spinAutonomieElec.setModel(new SpinnerNumberModel(new Integer(100), new Integer(1), null, new Integer(10)));
+		panVoitHybr.add(spinAutonomieElec);
+		
+		spinConsoElec = new JSpinner();
+		spinConsoElec.setBounds(249, 197, 57, 20);
+		spinConsoElec.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		panVoitHybr.add(spinConsoElec);
+		
+	/** Separator **/
+		sepHaut = new JSeparator();
+		sepHaut.setBounds(0, 39, 429, 5);
+		panVoitHybr.add(sepHaut);
+		
+		sepBas = new JSeparator();
+		sepBas.setBounds(0, 281, 424, 16);
+		panVoitHybr.add(sepBas);
+		
+		sepMilieu = new JSeparator();
+		sepMilieu.setBounds(19, 108, 296, 5);
+		panVoitHybr.add(sepMilieu);
+		
+		sepColonnes = new JSeparator();
+		sepColonnes.setOrientation(SwingConstants.VERTICAL);
+		sepColonnes.setBounds(236, 86, 5, 147);
+		panVoitHybr.add(sepColonnes);
+		
+	/** Button **/
+		btnSupprimerVoitHybr = new JButton("Supprimer");
+		btnSupprimerVoitHybr.setBounds(321, 7, 98, 26);
+		btnSupprimerVoitHybr.addActionListener(new GestionBoutons());
+		panVoitHybr.add(btnSupprimerVoitHybr);
+		
+		btnReinitialiserVoitHybr = new JButton("R\u00E9initialiser");
+		btnReinitialiserVoitHybr.setBounds(12, 302, 105, 26);
+		btnReinitialiserVoitHybr.addActionListener(new GestionBoutons());
+		panVoitHybr.add(btnReinitialiserVoitHybr);
+		
+		btnMAJVoitHybr = new JButton("Mettre \u00E0 jour");
+		btnMAJVoitHybr.setBounds(296, 302, 116, 26);
+		btnMAJVoitHybr.addActionListener(new GestionBoutons());
+		panVoitHybr.add(btnMAJVoitHybr);
+		
+/** Panneau Retour **/
+		btnMenuPrincipal = new JButton("Menu principal");
+		btnMenuPrincipal.setBounds(141, 141, 130, 26);
+		btnMenuPrincipal.addActionListener(new GestionBoutons());
+		panRetour.add(btnMenuPrincipal);
+
 		setEnabledSaison(false);
 		setEnabledCircuit(false);
 		setEnabledEcurie(false);
 		setEnabledVoiture(false);
+		setEnabledVoitureHybride(false);
 		chargerSaisons();
 		chargerCircuits();
 		chargerEcuries();
@@ -558,22 +732,42 @@ public class FenEdition extends JFrame {
 		for (int i = 0; i < listeFichiers.length; i++)
 		{
 			String tmp = listeFichiers[i].toString().replace("Voitures\\", "");
-			if (tmp.endsWith(".vth"))
+			if (tmp.endsWith(".voi"))
 			{
-				tmp = tmp.replace(".vth", "");
-				boxVoitTherm.addItem(tmp);
-			}
-			else if (tmp.endsWith(".vel"))
-			{
-				tmp = tmp.replace(".vel", "");
-				boxVoitElec.addItem(tmp);
+				tmp = tmp.replace(".voi", "");
+				boxVoiture.addItem(tmp);
+				
+				try{
+					InputStream ips=new FileInputStream(listeFichiers[i].toString()); 
+					InputStreamReader ipsr=new InputStreamReader(ips);
+					BufferedReader br=new BufferedReader(ipsr);
+					
+					for (int j = 0; j < 5; j++)
+					{
+						br.readLine();
+					}
+					
+					if (Integer.parseInt(br.readLine()) == 1)
+					{
+						boxVoitTherm.addItem(tmp);
+					}
+					else
+					{
+						boxVoitElec.addItem(tmp);
+					}
+					
+					br.close(); 
+				}
+				catch (Exception exc){
+					System.out.println(exc.toString());
+				}	
 			}
 			else if (tmp.endsWith(".vhy"))
 			{
 				tmp = tmp.replace(".vhy", "");
+				boxVoitureHybr.addItem(tmp);
 				boxVoitHybr.addItem(tmp);
 			}
-			boxVoiture.addItem(tmp);
 		}
 	}
 	
@@ -636,7 +830,22 @@ public class FenEdition extends JFrame {
 		spinVMax.setEnabled(b);
 		radioVoitTherm.setEnabled(b);
 		radioVoitElec.setEnabled(b);
-		radioVoitHybr.setEnabled(b);
+	}
+	
+	public void setEnabledVoitureHybride(boolean b)
+	{
+		txtNomVoitHybr.setEnabled(b);
+		btnMAJVoitHybr.setEnabled(b);
+		btnReinitialiserVoitHybr.setEnabled(b);
+		btnSupprimerVoitHybr.setEnabled(b);
+		spinTempsArretTherm.setEnabled(b);
+		spinTempsArretElec.setEnabled(b);
+		spinAutonomieTherm.setEnabled(b);
+		spinAutonomieElec.setEnabled(b);
+		spinConsoTherm.setEnabled(b);
+		spinConsoElec.setEnabled(b);
+		spinVMaxTherm.setEnabled(b);
+		spinVMaxElec.setEnabled(b);
 	}
 	
 	class FiltreTexte implements KeyListener
@@ -784,7 +993,6 @@ public class FenEdition extends JFrame {
 			{
 				radioVoitTherm.setSelected(false);
 				radioVoitElec.setSelected(false);
-				radioVoitHybr.setSelected(false);
 				if (boxVoiture.getSelectedIndex() == 0)
 				{
 					setEnabledVoiture(false);
@@ -794,9 +1002,9 @@ public class FenEdition extends JFrame {
 					setEnabledVoiture(true);
 					btnSupprimerVoiture.setEnabled(false);
 					txtNomVoiture.setText("");
-					spinVMax.setValue(new Integer(1000));
+					spinVMax.setValue(new Integer(300));
 					spinTempsArret.setValue(new Integer(10));
-					spinAutonomie.setValue(new Integer(300));
+					spinAutonomie.setValue(new Integer(1000));
 					spinConso.setValue(new Integer(3));
 				}
 				else
@@ -830,9 +1038,6 @@ public class FenEdition extends JFrame {
 							case 2:
 								radioVoitElec.setSelected(true);
 								break;
-							case 3:
-								radioVoitHybr.setSelected(true);
-								break;
 							default:
 								break;
 						}
@@ -841,7 +1046,63 @@ public class FenEdition extends JFrame {
 					catch (Exception exc){
 						System.out.println(exc.toString());
 					}
-				}			
+				}
+			}
+			else if (e.getSource() == boxVoitureHybr)
+			{
+				if (boxVoitureHybr.getSelectedIndex() == 0)
+				{
+					setEnabledVoitureHybride(false);
+				}
+				else if(boxVoitureHybr.getSelectedIndex() == 1)
+				{
+					setEnabledVoitureHybride(true);
+					btnSupprimerVoitHybr.setEnabled(false);
+					txtNomVoitHybr.setText("");
+					spinVMaxTherm.setValue(new Integer(300));
+					spinVMaxElec.setValue(new Integer(300));
+					spinTempsArretTherm.setValue(new Integer(10));
+					spinTempsArretElec.setValue(new Integer(10));
+					spinAutonomieTherm.setValue(new Integer(1000));
+					spinAutonomieElec.setValue(new Integer(1000));
+					spinConsoTherm.setValue(new Integer(3));
+					spinConsoElec.setValue(new Integer(3));
+				}
+				else
+				{
+					setEnabledVoitureHybride(true);
+					
+					try{
+						File rep = new File("Voitures");
+						File[] listeFichiers = rep.listFiles();
+						File fichier = null;
+						for (int i = 0; i < listeFichiers.length; i++)
+						{
+							if (listeFichiers[i].toString().contains((CharSequence) boxVoitureHybr.getSelectedItem()))
+							{
+								fichier = listeFichiers[i];
+							}
+						}
+						InputStream ips=new FileInputStream(fichier); 
+						InputStreamReader ipsr=new InputStreamReader(ips);
+						BufferedReader br=new BufferedReader(ipsr);
+						
+						txtNomVoitHybr.setText(br.readLine());
+						spinVMaxTherm.setValue(Integer.parseInt(br.readLine()));
+						spinTempsArretTherm.setValue(Integer.parseInt(br.readLine()));
+						spinAutonomieTherm.setValue(Integer.parseInt(br.readLine()));
+						spinConsoTherm.setValue(Integer.parseInt(br.readLine()));
+						spinVMaxElec.setValue(Integer.parseInt(br.readLine()));
+						spinTempsArretElec.setValue(Integer.parseInt(br.readLine()));
+						spinAutonomieElec.setValue(Integer.parseInt(br.readLine()));
+						spinConsoElec.setValue(Integer.parseInt(br.readLine()));
+						
+						br.close();
+					}		
+					catch (Exception exc){
+						System.out.println(exc.toString());
+					}
+				}
 			}
 		}
 	}
@@ -1011,53 +1272,23 @@ public class FenEdition extends JFrame {
 	
 	public void supprimerVoiture(int index)
 	{
-		if (boxVoiture.getSelectedIndex() != 1)
+		String fichier = "Voitures\\" + boxVoiture.getSelectedItem() + ".voi";
+		File f = new File(fichier);
+		if (f.exists())
 		{
-			String fichier = "Voitures\\" + boxVoiture.getSelectedItem();
-			if (radioVoitTherm.isSelected())
-			{
-				fichier += ".vth";
-			}
-			else if (radioVoitElec.isSelected())
-			{
-				fichier += ".vel";
-			}
-			else if (radioVoitHybr.isSelected())
-			{
-				fichier += ".vhy";
-			}
-			File f = new File(fichier);
-			if (f.exists())
-			{
-				f.delete();
-			}
+			f.delete();
 		}
 	}
-	
+		
 	public void enregistrerVoiture()
 	{
-		int index = boxVoiture.getSelectedIndex();
 		File dossier = new File("Voitures");
 		File[] listeVoitures = dossier.listFiles();
 		File fichierExistant = null;
-		String extension = "";
-		if (radioVoitTherm.isSelected())
-		{
-			extension = ".vth";
-		}
-		else if (radioVoitElec.isSelected())
-		{
-			extension = ".vel";
-		}
-		else if (radioVoitHybr.isSelected())
-		{
-			extension = ".vhy";
-		}
-		
+
 		for (int i = 0; i < listeVoitures.length; i++)
 		{
-			String nomVoitActuelle = listeVoitures[i].toString().replace("Voitures\\", "").substring(0, listeVoitures[i].toString().replace("Voitures\\", "").length() - 4);
-			if (nomVoitActuelle.equals(boxVoiture.getSelectedItem()))
+			if (listeVoitures[i].toString().contains((CharSequence) boxVoiture.getSelectedItem()))
 			{
 				fichierExistant = listeVoitures[i];
 			}
@@ -1065,11 +1296,11 @@ public class FenEdition extends JFrame {
 		
 		if (fichierExistant != null)
 		{
-			fichierExistant.renameTo(new File("Voitures\\" + txtNomVoiture.getText() + extension));
+			fichierExistant.renameTo(new File("Voitures\\" + txtNomVoiture.getText() + ".voi"));
 		}
 		
 		try {
-			FileWriter fw = new FileWriter ("Voitures\\" + txtNomVoiture.getText() + extension);
+			FileWriter fw = new FileWriter ("Voitures\\" + txtNomVoiture.getText() + ".voi");
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw);
 				fichierSortie.println(txtNomVoiture.getText());
@@ -1085,10 +1316,55 @@ public class FenEdition extends JFrame {
 				{
 					fichierSortie.println("2");
 				}
-				else if (radioVoitHybr.isSelected())
-				{
-					fichierSortie.println("3");
-				}
+			fichierSortie.close();
+		}
+		catch (Exception exc){
+			System.out.println(exc.toString());
+		}
+	}
+	
+	public void supprimerVoitureHybr(int index)
+	{
+		String fichier = "Voitures\\" + boxVoitureHybr.getSelectedItem() + ".vhy";
+		File f = new File(fichier);
+		if (f.exists())
+		{
+			f.delete();
+		}
+	}
+	
+	public void enregistrerVoitureHybr()
+	{
+		File dossier = new File("Voitures");
+		File[] listeVoitures = dossier.listFiles();
+		File fichierExistant = null;
+
+		for (int i = 0; i < listeVoitures.length; i++)
+		{
+			if (listeVoitures[i].toString().contains((CharSequence) boxVoitureHybr.getSelectedItem()))
+			{
+				fichierExistant = listeVoitures[i];
+			}
+		}
+		
+		if (fichierExistant != null)
+		{
+			fichierExistant.renameTo(new File("Voitures\\" + txtNomVoitHybr.getText() + ".vhy"));
+		}
+		
+		try {
+			FileWriter fw = new FileWriter ("Voitures\\" + txtNomVoitHybr.getText() + ".vhy");
+			BufferedWriter bw = new BufferedWriter (fw);
+			PrintWriter fichierSortie = new PrintWriter (bw);
+				fichierSortie.println(txtNomVoitHybr.getText());
+				fichierSortie.println(spinVMaxTherm.getValue().toString());
+				fichierSortie.println(spinTempsArretTherm.getValue().toString());
+				fichierSortie.println(spinAutonomieTherm.getValue().toString());
+				fichierSortie.println(spinConsoTherm.getValue().toString()); 
+				fichierSortie.println(spinVMaxElec.getValue().toString());
+				fichierSortie.println(spinTempsArretElec.getValue().toString());
+				fichierSortie.println(spinAutonomieElec.getValue().toString());
+				fichierSortie.println(spinConsoElec.getValue().toString()); 
 			fichierSortie.close();
 		}
 		catch (Exception exc){
@@ -1120,6 +1396,9 @@ public class FenEdition extends JFrame {
 		boxVoiture.removeAllItems();
 		boxVoiture.addItem("Choisir une voiture");
 		boxVoiture.addItem("Nouvelle voiture");
+		boxVoitureHybr.removeAllItems();
+		boxVoitureHybr.addItem("Choisir une voiture");
+		boxVoitureHybr.addItem("Nouvelle voiture");
 		chargerVoitures();
 	}
 	
@@ -1149,13 +1428,24 @@ public class FenEdition extends JFrame {
 			else if (e.getSource() == btnReinitialiserVoiture)
 			{
 				txtNomVoiture.setText("");
-				spinVMax.setValue(new Integer(100));
+				spinVMax.setValue(new Integer(300));
 				spinTempsArret.setValue(new Integer(10));
-				spinAutonomie.setValue(new Integer(100));
-				spinConso.setValue(new Integer(1));
+				spinAutonomie.setValue(new Integer(1000));
+				spinConso.setValue(new Integer(3));
 				radioVoitTherm.setSelected(false);
 				radioVoitElec.setSelected(false);
-				radioVoitHybr.setSelected(false);
+			}
+			else if (e.getSource() == btnReinitialiserVoitHybr)
+			{
+				txtNomVoitHybr.setText("");
+				spinVMaxTherm.setValue(new Integer(300));
+				spinVMaxElec.setValue(new Integer(300));
+				spinTempsArretTherm.setValue(new Integer(10));
+				spinTempsArretElec.setValue(new Integer(10));
+				spinAutonomieTherm.setValue(new Integer(1000));
+				spinAutonomieElec.setValue(new Integer(1000));
+				spinConsoTherm.setValue(new Integer(3));
+				spinConsoElec.setValue(new Integer(3));
 			}
 			else if (e.getSource() == btnSupprimerSaison)
 			{
@@ -1314,9 +1604,16 @@ public class FenEdition extends JFrame {
 				}
 				else
 				{
-					enregistrerVoiture();
-					rafraichirVoituresDispo();
-					boxVoiture.setSelectedIndex(0);
+					if (!radioVoitTherm.isSelected() && !radioVoitElec.isSelected())
+					{
+						JOptionPane.showMessageDialog(null, "Veuillez choisir le type !", "Erreur", JOptionPane.ERROR_MESSAGE);		
+					}
+					else
+					{
+						enregistrerVoiture();
+						rafraichirVoituresDispo();
+						boxVoiture.setSelectedIndex(0);
+					}
 				}
 			}
 			else if (e.getSource() == btnSupprimerVoiture)
@@ -1362,6 +1659,69 @@ public class FenEdition extends JFrame {
 					rafraichirVoituresDispo();
 					boxVoiture.setSelectedIndex(0);
 				}
+			}
+			else if (e.getSource() == btnMAJVoitHybr)
+			{
+				if (txtNomVoitHybr.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez entrer un nom !", "Erreur", JOptionPane.ERROR_MESSAGE);			
+				}
+				else
+				{
+					enregistrerVoitureHybr();
+					rafraichirVoituresDispo();
+					boxVoitureHybr.setSelectedIndex(0);
+				}
+			}
+			else if (e.getSource() == btnSupprimerVoitHybr)
+			{
+				boolean found = false;
+				File rep = new File("Ecuries");
+				File[] listeFichiers = rep.listFiles();
+				int i = 0;
+				
+				while (i < listeFichiers.length && !found)
+				{
+					try{
+						InputStream ips=new FileInputStream(listeFichiers[i].toString()); 
+						InputStreamReader ipsr=new InputStreamReader(ips);
+						BufferedReader br=new BufferedReader(ipsr);
+						br.readLine();
+						for (int j = 0; j < 3; j++)
+						{
+							if (boxVoitureHybr.getSelectedItem().equals(br.readLine()))
+							{
+								found = true;
+							}
+						}
+						
+						br.close(); 
+					}
+					catch (Exception exc){
+						System.out.println(exc.toString());
+					}
+					
+					i++;
+				}
+				
+				if (found)
+				{
+					JOptionPane.showMessageDialog(null, "Impossible de supprimer la voiture !\nCelle-ci est utilisée dans une écurie.", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					int index = boxVoitureHybr.getSelectedIndex();
+					supprimerVoitureHybr(index);
+					boxVoitureHybr.removeItemAt(index);
+					rafraichirVoituresDispo();
+					boxVoitureHybr.setSelectedIndex(0);
+				}
+			}
+			else if (e.getSource() == btnMenuPrincipal)
+			{
+				setVisible(false);
+				dispose();
+				new FenPrincipale();
 			}
 		}
 	}
