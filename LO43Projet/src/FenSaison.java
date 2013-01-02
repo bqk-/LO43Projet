@@ -5,9 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 
 public class FenSaison extends JFrame {

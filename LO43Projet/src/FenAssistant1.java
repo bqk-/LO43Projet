@@ -11,8 +11,6 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class FenAssistant1 extends JFrame {
 

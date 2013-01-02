@@ -63,6 +63,7 @@ public class FenEdition extends JFrame {
 	private JButton btnSupprimerCircuit;
 	private JButton btnMAJCircuit;
 	private JButton btnReinitialiserCircuit;
+	private JButton btnDessinerCircuit;
 	
 /** Panneau Ecurie **/
 	private JTextField txtNomEcurie;
@@ -136,13 +137,14 @@ public class FenEdition extends JFrame {
 	private JButton btnAssistant1;
 	private JButton btnAssistant2;
 
+
 	public FenEdition(String fenetreOrigine) {
 		setTitle("Mode Edition");
 		setSize(435, 395);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
 		setLocationRelativeTo(null);
+
 		getContentPane().setLayout(null);
 		panOnglets = new JTabbedPane(JTabbedPane.TOP);
 		panOnglets.setBounds(0, 0, 429, 367);
@@ -350,6 +352,11 @@ public class FenEdition extends JFrame {
 		btnReinitialiserCircuit.setBounds(12, 300, 105, 26);
 		btnReinitialiserCircuit.addActionListener(new GestionBoutons());
 		panCircuit.add(btnReinitialiserCircuit);
+		
+		btnDessinerCircuit = new JButton("Dessiner le circuit");
+		btnDessinerCircuit.setBounds(133, 219, 170, 26);
+		btnDessinerCircuit.addActionListener(new GestionBoutons());
+		panCircuit.add(btnDessinerCircuit);
 		
 		
 /** Panneau Ecurie **/
@@ -711,6 +718,7 @@ public class FenEdition extends JFrame {
 		chargerCircuits();
 		chargerEcuries();
 		chargerVoitures();
+		setVisible(true);
 	}
 	
 	public void chargerCircuits()
@@ -1584,6 +1592,10 @@ public class FenEdition extends JFrame {
 					boxCircuit.removeItemAt(index);
 					boxCircuit.setSelectedIndex(0);
 				}
+			}
+			else if (e.getSource() == btnDessinerCircuit)
+			{
+				new FenDessin();
 			}
 			else if (e.getSource() == btnMAJEcurie)
 			{

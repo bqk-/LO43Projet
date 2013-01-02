@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FenSimulation extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	
 	private JTextField nomEcurie;
 	private JTextField nomSaison;
 	private JTextField nomCircuit;
@@ -15,6 +16,7 @@ public class FenSimulation extends JFrame {
 		setSize(440,350);
 		setLocationRelativeTo(null);
 		setTitle("Simulation");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
 		JSeparator separator = new JSeparator();
