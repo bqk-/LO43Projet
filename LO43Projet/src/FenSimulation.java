@@ -11,7 +11,6 @@ public class FenSimulation extends JFrame {
 	private JTextField v2;
 	private JTextField v3;
 	public FenSimulation() {
-		setVisible(true);
 		setResizable(false);
 		setSize(440,350);
 		setLocationRelativeTo(null);
@@ -123,7 +122,7 @@ public class FenSimulation extends JFrame {
 		lblTour.setBounds(227, 150, 66, 19);
 		getContentPane().add(lblTour);
 		
-
+		setVisible(true);
 	}
 
 

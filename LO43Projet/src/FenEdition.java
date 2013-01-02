@@ -133,8 +133,10 @@ public class FenEdition extends JFrame {
 	
 /** Panneau retour **/
 	private JButton btnMenuPrincipal;
+	private JButton btnAssistant1;
+	private JButton btnAssistant2;
 
-	public FenEdition() {
+	public FenEdition(String fenetreOrigine) {
 		setTitle("Mode Edition");
 		setSize(435, 395);
 		setResizable(false);
@@ -683,10 +685,23 @@ public class FenEdition extends JFrame {
 		
 /** Panneau Retour **/
 		btnMenuPrincipal = new JButton("Menu principal");
-		btnMenuPrincipal.setBounds(141, 141, 130, 26);
+		btnMenuPrincipal.setBounds(142, 103, 130, 26);
+		btnMenuPrincipal.setEnabled(fenetreOrigine.equals("Menu principal"));
 		btnMenuPrincipal.addActionListener(new GestionBoutons());
 		panRetour.add(btnMenuPrincipal);
-
+		
+		btnAssistant1 = new JButton("Assistant 1");
+		btnAssistant1.setBounds(142, 141, 130, 26);
+		btnAssistant1.setEnabled(fenetreOrigine.equals("Assistant 1"));
+		btnAssistant1.addActionListener(new GestionBoutons());
+		panRetour.add(btnAssistant1);
+		
+		btnAssistant2 = new JButton("Assistant 2");
+		btnAssistant2.setBounds(142, 179, 130, 26);
+		btnAssistant2.setEnabled(fenetreOrigine.equals("Assistant 2"));
+		btnAssistant2.addActionListener(new GestionBoutons());
+		panRetour.add(btnAssistant2);
+		
 		setEnabledSaison(false);
 		setEnabledCircuit(false);
 		setEnabledEcurie(false);
@@ -1722,6 +1737,18 @@ public class FenEdition extends JFrame {
 				setVisible(false);
 				dispose();
 				new FenPrincipale();
+			}
+			else if (e.getSource() == btnAssistant1)
+			{
+				setVisible(false);
+				dispose();
+				new FenAssistant1();
+			}
+			else if (e.getSource() == btnAssistant2)
+			{
+				setVisible(false);
+				dispose();
+				new FenAssistant2();
 			}
 		}
 	}

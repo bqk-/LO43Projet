@@ -57,7 +57,7 @@ public class FenPrincipale extends JFrame {
 			{
 				setVisible(false);
 				dispose();
-				new FenEdition();
+				new FenEdition("Menu principal");
 			}
 		}
 	}

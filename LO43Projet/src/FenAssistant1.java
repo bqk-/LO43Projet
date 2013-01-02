@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,9 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class FenAssistant1 extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel lblEcurie;
@@ -30,22 +29,16 @@ public class FenAssistant1 extends JFrame {
 	private JComboBox<String> boxVoitHybr;
 	private JSeparator sepHaut;
 	private JSeparator sepBas;	
-	private JButton btnNouvEcurie;
-	private JButton btnEditerEcurie;
-	private JButton btnNouvVoitTherm;
-	private JButton btnEditerVoitTherm;
-	private JButton btnNouvVoitElec;
-	private JButton btnEditerVoitElec;
-	private JButton btnNouvVoitHybr;
-	private JButton btnEditerVoitHybr;
 	private JButton btnValider;
+	private JButton btnEditer;
 	
 	public FenAssistant1() {
 		setVisible(true);
 		setResizable(false);
-		setSize(440,350);
+		setSize(230,334);
 		setLocationRelativeTo(null);
-		setTitle("Assistant de cr\u00E9ation (1/2)");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Assistant (1/2)");
 		getContentPane().setLayout(null);
 	
 	/** Label **/
@@ -74,7 +67,7 @@ public class FenAssistant1 extends JFrame {
 	/** ComboBox **/
 		boxEcurie = new JComboBox<String>();
 		boxEcurie.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une \u00E9curie"}));
-		lblEcurie.setLabelFor(boxEcurie);
+		boxEcurie.addActionListener(new GestionMenus());
 		boxEcurie.setBounds(20, 33, 188, 25);
 		getContentPane().add(boxEcurie);
 		
@@ -99,54 +92,18 @@ public class FenAssistant1 extends JFrame {
 		getContentPane().add(sepHaut);
 		
 		sepBas = new JSeparator();
-		sepBas.setBounds(0, 275, 434, 10);
+		sepBas.setBounds(0, 265, 434, 10);
 		getContentPane().add(sepBas);
-	
-	/** Button **/
-		btnNouvVoitElec = new JButton("Nouvelle...");
-		btnNouvVoitElec.setBounds(218, 172, 98, 26);
-		btnNouvVoitElec.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvVoitElec);
-		
-		btnEditerVoitElec = new JButton("Editer");
-		btnEditerVoitElec.setBounds(326, 172, 98, 26);
-		btnEditerVoitElec.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerVoitElec);
-		
-		btnNouvEcurie = new JButton("Nouvelle...");
-		btnNouvEcurie.setBounds(218, 32, 98, 26);
-		btnNouvEcurie.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvEcurie);
-		
-		btnEditerEcurie = new JButton("Editer");
-		btnEditerEcurie.setBounds(326, 32, 98, 26);
-		btnEditerEcurie.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerEcurie);
-		
-		btnNouvVoitTherm = new JButton("Nouvelle...");
-		btnNouvVoitTherm.setBounds(218, 116, 98, 26);
-		btnNouvVoitTherm.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvVoitTherm);
-		
-		btnEditerVoitTherm = new JButton("Editer");
-		btnEditerVoitTherm.setBounds(326, 116, 98, 26);
-		btnEditerVoitTherm.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerVoitTherm);
-		
-		btnNouvVoitHybr = new JButton("Nouvelle...");
-		btnNouvVoitHybr.setBounds(218, 228, 98, 26);
-		btnNouvVoitHybr.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvVoitHybr);
-		
-		btnEditerVoitHybr = new JButton("Editer");
-		btnEditerVoitHybr.setBounds(326, 228, 98, 26);
-		btnEditerVoitHybr.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerVoitHybr);
 		
 		btnValider = new JButton("Valider");
-		btnValider.setBounds(325, 287, 98, 26);
+		btnValider.setBounds(110, 270, 98, 26);
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
+		
+		btnEditer = new JButton("Editer...");
+		btnEditer.setBounds(10, 270, 98, 26);
+		btnEditer.addActionListener(new GestionBoutons());
+		getContentPane().add(btnEditer);
 
 		chargerVoitures();
 		chargerEcuries();
@@ -162,15 +119,34 @@ public class FenAssistant1 extends JFrame {
 		for (int i = 0; i < listeFichiers.length; i++)
 		{
 			String tmp = listeFichiers[i].toString().replace("Voitures\\", "");
-			if (tmp.endsWith(".vth"))
+			if (tmp.endsWith(".voi"))
 			{
-				tmp = tmp.replace(".vth", "");
-				boxVoitTherm.addItem(tmp);
-			}
-			else if (tmp.endsWith(".vel"))
-			{
-				tmp = tmp.replace(".vel", "");
-				boxVoitElec.addItem(tmp);
+				tmp = tmp.replace(".voi", "");
+				
+				try{
+					InputStream ips=new FileInputStream(listeFichiers[i].toString()); 
+					InputStreamReader ipsr=new InputStreamReader(ips);
+					BufferedReader br=new BufferedReader(ipsr);
+					
+					for (int j = 0; j < 5; j++)
+					{
+						br.readLine();
+					}
+					
+					if (Integer.parseInt(br.readLine()) == 1)
+					{
+						boxVoitTherm.addItem(tmp);
+					}
+					else
+					{
+						boxVoitElec.addItem(tmp);
+					}
+					
+					br.close(); 
+				}
+				catch (Exception exc){
+					System.out.println(exc.toString());
+				}	
 			}
 			else if (tmp.endsWith(".vhy"))
 			{
@@ -179,7 +155,7 @@ public class FenAssistant1 extends JFrame {
 			}
 		}
 	}
-	
+		
 	public void chargerEcuries()
 	{
 		File rep = new File("Ecuries");
@@ -191,71 +167,85 @@ public class FenAssistant1 extends JFrame {
 		}
 	}
 	
+	class GestionMenus implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			if (e.getSource() == boxEcurie)
+			{
+				if (boxEcurie.getSelectedIndex() != 0)
+				{
+					try{
+						InputStream ips=new FileInputStream("Ecuries\\"+boxEcurie.getSelectedItem()+".ecu"); 
+						InputStreamReader ipsr=new InputStreamReader(ips);
+						BufferedReader br=new BufferedReader(ipsr);
+						
+						br.readLine();
+						boxVoitTherm.setSelectedItem(br.readLine());
+						boxVoitElec.setSelectedItem(br.readLine());
+						boxVoitHybr.setSelectedItem(br.readLine());
+						br.close();
+					}		
+					catch (Exception exc){
+						System.out.println(exc.toString());
+					}
+				}
+				else
+				{
+					boxVoitTherm.setSelectedIndex(0);
+					boxVoitElec.setSelectedIndex(0);
+					boxVoitHybr.setSelectedIndex(0);
+				}
+			}
+		}
+	}
+	
 	class GestionBoutons implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnValider)
 			{
-				//Enregistrement des données pour la simulation
-				String fichier="Donnees/Simulation.txt";
-				try {
-					FileWriter fw = new FileWriter (fichier);
-					BufferedWriter bw = new BufferedWriter (fw);
-					PrintWriter fichierSortie = new PrintWriter (bw);
-					// Nom ecurie \n Voiture1 \n Voiture2 \n Voiture3
-					fichierSortie.println (boxEcurie.getSelectedItem().toString()+"\n"+boxVoitTherm.getSelectedItem().toString()+"\n"+boxVoitElec.getSelectedItem().toString()+"\n"+boxVoitHybr.getSelectedItem().toString()+"\n"); 
-					fichierSortie.close(); 
+				if (boxEcurie.getSelectedIndex() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une écurie !", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}
-				catch (Exception g){
-					System.out.println(g.toString());
+				else if (boxVoitTherm.getSelectedIndex() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une voiture thermique !", "Erreur", JOptionPane.ERROR_MESSAGE);
 				}
+				else if (boxVoitElec.getSelectedIndex() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une voiture électrique !", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else if (boxVoitHybr.getSelectedIndex() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une voiture hybride !", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					//Enregistrement des données pour la simulation
+					String fichier="Donnees/Simulation.txt";
+					try {
+						FileWriter fw = new FileWriter (fichier);
+						BufferedWriter bw = new BufferedWriter (fw);
+						PrintWriter fichierSortie = new PrintWriter (bw);
+						// Nom ecurie \n Voiture1 \n Voiture2 \n Voiture3
+						fichierSortie.println (boxEcurie.getSelectedItem().toString()+"\n"+boxVoitTherm.getSelectedItem().toString()+"\n"+boxVoitElec.getSelectedItem().toString()+"\n"+boxVoitHybr.getSelectedItem().toString()+"\n"); 
+						fichierSortie.close(); 
+					}
+					catch (Exception g){
+						System.out.println(g.toString());
+					}
+					setVisible(false);
+					dispose();
+		            new FenAssistant2();
+				}
+			}
+			else if (e.getSource() == btnEditer)
+			{
 				setVisible(false);
 				dispose();
-	            new FenAssistant2();
-			}
-			else if (e.getSource() == btnNouvEcurie)
-			{
-				new FenEcurie();
-			}
-			else if (e.getSource() == btnEditerEcurie)
-			{
-				if(boxEcurie.getSelectedItem().toString().equals("Choisir une \u00E9curie")) //Nouvelle 
-					new FenEcurie();
-				else
-					new FenEcurie(boxEcurie.getSelectedItem().toString());
-			}
-			else if (e.getSource() == btnNouvVoitTherm)
-			{
-				new FenVoiture();
-			}
-			else if (e.getSource() == btnNouvVoitElec)
-			{
-				new FenVoiture();
-			}
-			else if (e.getSource() == btnNouvVoitHybr)
-			{
-				new FenVoiture();
-			}
-			else if (e.getSource() == btnEditerVoitTherm)
-			{
-				if(boxVoitTherm.getSelectedItem().toString().equals("Choisir une voiture")) //Nouvelle 
-					new FenVoiture();
-				else
-					new FenVoiture(boxVoitTherm.getSelectedItem().toString(),"vth");
-			}
-			else if (e.getSource() == btnEditerVoitElec)
-			{
-				if(boxVoitElec.getSelectedItem().toString().equals("Choisir une voiture")) //Nouvelle 
-					new FenVoiture();
-				else
-					new FenVoiture(boxVoitElec.getSelectedItem().toString(),"vel");
-			}
-			else if (e.getSource() == btnEditerVoitHybr)
-			{
-				if(boxVoitHybr.getSelectedItem().toString().equals("Choisir une voiture")) //Nouvelle 
-					new FenVoiture();
-				else
-					new FenVoiture(boxVoitHybr.getSelectedItem().toString(),"vhy");
+				new FenEdition("Assistant 1");
 			}
 		}
 	}

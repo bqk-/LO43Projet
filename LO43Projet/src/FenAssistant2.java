@@ -3,44 +3,38 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
-
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JList;
-import javax.swing.SwingConstants;
 
 public class FenAssistant2 extends JFrame {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	
 	private JLabel lblSaison;
 	private JLabel lblCircuits;
-	private JLabel lblCircuitsDispo;
-	private JLabel lblCircuitsSelec;
 	private JButton btnValider;
-	private JButton btnAjouter;
-	private JButton btnSupprimer;
-	private JButton btnNouvSaison;
-	private JButton btnEditerSaison;
-	private JButton btnNouvCircuit;
-	private JButton btnEditerCircuit;
 	private JComboBox<String> boxSaison;
-	private JList<Circuit> lstCircuitsDispo;
-	private JList<Circuit> lstCircuitsSelec;
+	private JList<String> lstCircuitsSelec;
 	private JSeparator sepHaut;
 	private JSeparator sepBas;
-	private JSeparator sepMilieu;
+	private JButton btnEditer;
 	
 	public FenAssistant2() {
 		setVisible(true);
 		setResizable(false);
-		setSize(440,385);
+		setSize(223,325);
 		setLocationRelativeTo(null);
-		setTitle("Assistant de cr\u00E9ation (2/2)");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Assistant (2/2)");
 		getContentPane().setLayout(null);
 	
 	/** Label **/
@@ -53,82 +47,43 @@ public class FenAssistant2 extends JFrame {
 		lblCircuits.setFont(new Font("Dialog", Font.BOLD, 14));
 		lblCircuits.setBounds(8, 69, 143, 25);
 		getContentPane().add(lblCircuits);
-		
-		lblCircuitsDispo = new JLabel("Circuits disponibles :");
-		lblCircuitsDispo.setBounds(18, 118, 133, 17);
-		getContentPane().add(lblCircuitsDispo);
-		
-		lstCircuitsDispo = new JList<Circuit>();
-		lstCircuitsDispo.setBounds(18, 137, 188, 133);
-		getContentPane().add(lstCircuitsDispo);
-		
-	    lstCircuitsSelec = new JList<Circuit>();
-		lstCircuitsSelec.setBounds(234, 138, 188, 133);
+	
+	/** List **/
+	    lstCircuitsSelec = new JList<String>();
+		lstCircuitsSelec.setBounds(18, 105, 188, 133);
 		getContentPane().add(lstCircuitsSelec);
-		
-		lblCircuitsSelec = new JLabel("Circuits s\u00E9lectionn\u00E9s :");
-		lblCircuitsSelec.setBounds(234, 119, 133, 17);
-		getContentPane().add(lblCircuitsSelec);
 		
 	/** ComboBox **/
 		boxSaison = new JComboBox<String>();
 		boxSaison.setModel(new DefaultComboBoxModel<String>(new String[] {"Choisir une saison"}));
 		boxSaison.setBounds(18, 33, 188, 25);
+		boxSaison.addActionListener(new GestionMenus());
 		getContentPane().add(boxSaison);
 	
 	/** Separator **/
 		sepBas = new JSeparator();
-		sepBas.setBounds(-2, 311, 436, 10);
+		sepBas.setBounds(-4, 249, 436, 10);
 		getContentPane().add(sepBas);
-		
-		sepMilieu = new JSeparator();
-		sepMilieu.setOrientation(SwingConstants.VERTICAL);
-		sepMilieu.setBounds(215, 119, 8, 192);
-		getContentPane().add(sepMilieu);
 		
 		sepHaut = new JSeparator();
 		sepHaut.setBounds(-2, 66, 434, 20);
 		getContentPane().add(sepHaut);
-	
+		
 	/** Button **/
-		btnAjouter = new JButton("=>");
-		btnAjouter.setBounds(108, 279, 98, 26);
-		btnAjouter.addActionListener(new GestionBoutons());
-		getContentPane().add(btnAjouter);
-		
-		btnSupprimer = new JButton("<=");
-		btnSupprimer.setBounds(232, 279, 98, 26);
-		btnSupprimer.addActionListener(new GestionBoutons());
-		getContentPane().add(btnSupprimer);
-		
-		btnNouvCircuit = new JButton("Nouveau...");
-		btnNouvCircuit.setBounds(202, 80, 98, 26);
-		btnNouvCircuit.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvCircuit);
-		
-		btnEditerCircuit = new JButton("Editer");
-		btnEditerCircuit.setBounds(324, 80, 98, 26);
-		btnEditerCircuit.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerCircuit);
-		
 		btnValider = new JButton("Valider");
-		btnValider.setBounds(324, 321, 98, 26);
+		btnValider.setBounds(108, 260, 98, 26);
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
 		
-		btnNouvSaison = new JButton("Nouvelle...");
-		btnNouvSaison.setBounds(216, 32, 98, 26);
-		btnNouvSaison.addActionListener(new GestionBoutons());
-		getContentPane().add(btnNouvSaison);
+		btnEditer = new JButton("Editer...");
+		btnEditer.setBounds(5, 260, 98, 26);
+		btnEditer.addActionListener(new GestionBoutons());
+		getContentPane().add(btnEditer);
 		
-		btnEditerSaison = new JButton("Editer");
-		btnEditerSaison.setBounds(324, 32, 98, 26);
-		btnEditerSaison.addActionListener(new GestionBoutons());
-		getContentPane().add(btnEditerSaison);
 		chargerSaisons();
-		
 		setVisible(true);
 	}
+	
 	public void chargerSaisons()
 	{
 		File rep = new File("Saisons");
@@ -139,41 +94,66 @@ public class FenAssistant2 extends JFrame {
 			boxSaison.addItem(listeFichiers[i].toString().replace("Saisons\\", "").replace(".sai", ""));
 		}
 	}
+	
+	class GestionMenus implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			if (e.getSource() == boxSaison)
+			{
+				if (boxSaison.getSelectedIndex() != 0)
+				{
+					int nbrCircuits;
+					String[] listeCircuits = null;
+					try{
+						InputStream ips=new FileInputStream("Saisons\\"+boxSaison.getSelectedItem()+".sai"); 
+						InputStreamReader ipsr=new InputStreamReader(ips);
+						BufferedReader br=new BufferedReader(ipsr);
+						
+						br.readLine();
+						nbrCircuits = Integer.parseInt(br.readLine());
+						listeCircuits = new String[nbrCircuits];
+						for (int i = 0; i < nbrCircuits; i++)
+						{
+							listeCircuits[i] = br.readLine();
+						}
+						lstCircuitsSelec.setListData(listeCircuits);
+						
+						br.close();
+					}
+					catch (Exception exc){
+						System.out.println(exc.toString());
+					}
+				}
+				else
+				{
+					lstCircuitsSelec.setListData(new String[1]);
+				}
+			}
+		}
+	}
+	
 	class GestionBoutons implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnValider)
 			{
+				if (boxSaison.getSelectedIndex() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une saison !", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					setVisible(false);
+					dispose();
+					new FenSimulation();
+				}
+			}
+			else if (e.getSource() == btnEditer)
+			{
 				setVisible(false);
 				dispose();
-				new FenSimulation();
-			}
-			else if (e.getSource() == btnNouvSaison)
-			{
-				new FenSaison();
-			}
-			else if (e.getSource() == btnEditerSaison)
-			{
-				if(boxSaison.getSelectedItem().toString().equals("Choisir une saison")) //Nouvelle 
-					new FenSaison();
-				else
-					new FenSaison(boxSaison.getSelectedItem().toString());
-			}
-			else if (e.getSource() == btnNouvCircuit)
-			{
-
-			}
-			else if (e.getSource() == btnEditerCircuit)
-			{
-
-			}
-			else if (e.getSource() == btnAjouter)
-			{
-
-			}
-			else if (e.getSource() == btnSupprimer)
-			{
-
+				new FenEdition("Assistant 2");
 			}
 		}
 	}
