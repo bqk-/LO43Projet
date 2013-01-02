@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 
 public class FenEdition extends JFrame {
 	private static final long serialVersionUID = 1L;
+
 /** Panneaux **/
 	private JTabbedPane panOnglets;
 	private JPanel panSaison;
@@ -824,10 +825,12 @@ public class FenEdition extends JFrame {
 		btnMAJCircuit.setEnabled(b);
 		btnReinitialiserCircuit.setEnabled(b);
 		btnSupprimerCircuit.setEnabled(b);
+		btnDessinerCircuit.setEnabled(b);
 		spinLongueurCircuit.setEnabled(b);
 		spinNbreTours.setEnabled(b);
 		spinVitesseMax.setEnabled(b);
 		spinPositionStands.setEnabled(b);
+		
 	}
 	
 	public void setEnabledEcurie(boolean b)
@@ -1595,7 +1598,15 @@ public class FenEdition extends JFrame {
 			}
 			else if (e.getSource() == btnDessinerCircuit)
 			{
-				new FenDessin();
+				if (txtNomCircuit.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez entrer un nom !", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					txtNomCircuit.setEnabled(false);
+					new FenDessin(txtNomCircuit.getText());
+				}
 			}
 			else if (e.getSource() == btnMAJEcurie)
 			{
