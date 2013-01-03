@@ -730,9 +730,12 @@ public class FenEdition extends JFrame {
 		
 		for (int i = 0; i < listeFichiers.length; i++)
 		{
-			String tmp = listeFichiers[i].toString().replace("Circuits\\", "").replace(".cir", "");
-			listeCircuits[i] = tmp;
-			boxCircuit.addItem(tmp);
+			if(listeFichiers[i].toString().substring(listeFichiers[i].toString().length()-3, listeFichiers[i].toString().length()).equals("cir"))
+			{
+				String tmp = listeFichiers[i].toString().replace("Circuits\\", "").replace(".cir", "");
+				listeCircuits[i] = tmp;
+				boxCircuit.addItem(tmp);
+			}
 		}
 		lstCircuitsDispo.setListData(listeCircuits);
 	}

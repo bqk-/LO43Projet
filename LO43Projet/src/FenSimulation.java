@@ -154,10 +154,6 @@ public class FenSimulation extends JFrame {
 		btnCircuitSuivant.addActionListener(new GestionBoutons());
 		getContentPane().add(btnCircuitSuivant);
 		
-		JLabel lblTour = new JLabel("Tour");
-		lblTour.setBounds(227, 150, 66, 19);
-		getContentPane().add(lblTour);
-		
 		String fichier="Donnees/Simulation.txt";
 		try{
 			InputStream ips=new FileInputStream(fichier); 
