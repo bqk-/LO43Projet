@@ -212,7 +212,7 @@ public class Voiture {
 			tpsTotal.setTps((int)(m_autonomie*m_tauxRemplissage));
 		}
 		
-		tpsTotal.setTps(tpsTotal.getTps());
+		tpsTotal.setTps(tpsTotal.getTps()); //A quoi ça peut bien servir ça ?
 		return tpsTotal;
 	}
 	

@@ -1,17 +1,50 @@
 import javax.swing.*;
+
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FenSimulation extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
+	private JLabel Saison;
+	private JLabel lblEcurie;
+	private JLabel Circuit;
+	private JLabel lblVoitures;
+	private JLabel lblVoiture;
+	private JLabel label_3;
+	private JLabel label_4;
+	private JLabel lblTemps;
+	private JLabel lblTempsTotal;
+	private JLabel lblTour;
 	private JTextField nomEcurie;
 	private JTextField nomSaison;
 	private JTextField nomCircuit;
 	private JTextField v1;
 	private JTextField v2;
 	private JTextField v3;
+	private JSeparator separator_4;
+	private JSeparator separator_3;
+	private JSeparator separator_2;
+	private JSeparator separator_1;
+	private JSeparator separator;
+	private int circuitCourant;
+	private int nbCir;
+	private String listCircuits[];
+	private JButton btnCircuitSuivant;
+	
 	public FenSimulation() {
+		
 		setResizable(false);
 		setSize(440,350);
 		setLocationRelativeTo(null);
@@ -118,14 +151,80 @@ public class FenSimulation extends JFrame {
 		
 		JButton btnCircuitSuivant = new JButton("Circuit suivant");
 		btnCircuitSuivant.setBounds(149, 287, 144, 28);
+		btnCircuitSuivant.addActionListener(new GestionBoutons());
 		getContentPane().add(btnCircuitSuivant);
 		
 		JLabel lblTour = new JLabel("Tour");
 		lblTour.setBounds(227, 150, 66, 19);
 		getContentPane().add(lblTour);
 		
+		String fichier="Donnees/Simulation.txt";
+		try{
+			InputStream ips=new FileInputStream(fichier); 
+			InputStreamReader ipsr=new InputStreamReader(ips);
+			BufferedReader br=new BufferedReader(ipsr);
+			String ligne;
+			ligne=br.readLine();
+			nomEcurie.setText(ligne);
+			ligne=br.readLine();
+			v1.setText(ligne);
+			lblVoiture.setText(ligne);
+			ligne=br.readLine();
+			v2.setText(ligne);
+			label_3.setText(ligne);
+			ligne=br.readLine();
+			v3.setText(ligne);
+			label_4.setText(ligne);
+			ligne=br.readLine();
+			nomSaison.setText(ligne);
+			String fichier2="Saisons/"+ligne+".sai";
+			try{
+				InputStream ips2=new FileInputStream(fichier2); 
+				InputStreamReader ipsr2=new InputStreamReader(ips2);
+				BufferedReader br2=new BufferedReader(ipsr2);
+				String ligne2;
+				ligne2=br2.readLine(); //Nom saison, on passe
+				ligne2=br2.readLine(); //Nb circuits
+				nbCir=Integer.parseInt(ligne2);
+				listCircuits=new String[nbCir];
+				for(int k=0;k<nbCir;k++)
+				{
+					ligne2=br2.readLine();
+					listCircuits[k]=ligne2;
+				}
+				br2.close(); 
+				nomCircuit.setText(listCircuits[0]);
+				circuitCourant=0;
+			}		
+			catch (Exception g){
+				System.out.println(g.toString());
+			}
+			br.close(); 
+		}		
+		catch (Exception g){
+			System.out.println(g.toString());
+		}
+		
 		setVisible(true);
 	}
 
-
+	class GestionBoutons implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btnCircuitSuivant)
+			{
+				if(circuitCourant != (nbCir-1))
+				{
+					circuitCourant++;
+					nomCircuit.setText(listCircuits[circuitCourant]);
+					if(circuitCourant==(nbCir-1))
+						btnCircuitSuivant.setText("Résultats de la saison");
+				}
+				else
+				{
+					//Fin de la simulation, saison terminée, afficher les résultats de tous les circuits
+				}
+			}
+		}
+	}
 }

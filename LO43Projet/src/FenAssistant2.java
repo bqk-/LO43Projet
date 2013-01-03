@@ -4,10 +4,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -144,6 +148,19 @@ public class FenAssistant2 extends JFrame {
 				}
 				else
 				{
+					
+					//Enregistrement des données pour la simulation
+					String fichier="Donnees/Simulation.txt";
+					try {
+						FileWriter fw = new FileWriter (fichier,true);
+						BufferedWriter bw = new BufferedWriter (fw);
+						PrintWriter fichierSortie = new PrintWriter (bw);
+						fichierSortie.println (boxSaison.getSelectedItem().toString()); 
+						fichierSortie.close(); 
+					}
+					catch (Exception g){
+						System.out.println(g.toString());
+					}				
 					setVisible(false);
 					dispose();
 					new FenSimulation();

@@ -228,7 +228,7 @@ public class FenAssistant1 extends JFrame {
 						BufferedWriter bw = new BufferedWriter (fw);
 						PrintWriter fichierSortie = new PrintWriter (bw);
 						// Nom ecurie \n Voiture1 \n Voiture2 \n Voiture3
-						fichierSortie.println (boxEcurie.getSelectedItem().toString()+"\n"+boxVoitTherm.getSelectedItem().toString()+"\n"+boxVoitElec.getSelectedItem().toString()+"\n"+boxVoitHybr.getSelectedItem().toString()+"\n"); 
+						fichierSortie.println (boxEcurie.getSelectedItem().toString()+"\n"+boxVoitTherm.getSelectedItem().toString()+"\n"+boxVoitElec.getSelectedItem().toString()+"\n"+boxVoitHybr.getSelectedItem().toString()); 
 						fichierSortie.close(); 
 					}
 					catch (Exception g){
