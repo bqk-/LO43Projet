@@ -88,7 +88,7 @@ public class FenEdition extends JFrame {
 	private JLabel lblVoiture;
 	private JLabel lblNomVoiture;
 	private JLabel lblVMax;
-	private JLabel lblTempsArret;
+	private JLabel lblTempsPlein;
 	private JLabel lblAutonomie;
 	private JLabel lblConso;
 	private JLabel lblType;
@@ -308,7 +308,7 @@ public class FenEdition extends JFrame {
 		panCircuit.add(spinLongueurCircuit);
 		
 		spinPositionStands = new JSpinner();
-		spinPositionStands.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer((int) spinLongueurCircuit.getValue()), new Integer(10)));
+		spinPositionStands.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer((Integer) spinLongueurCircuit.getValue()), new Integer(10)));
 		spinPositionStands.setBounds(164, 110, 72, 20);
 		panCircuit.add(spinPositionStands);
 		
@@ -448,7 +448,7 @@ public class FenEdition extends JFrame {
 		txtNomVoiture = new JTextField();
 		txtNomVoiture.addKeyListener(new FiltreTexte());
 		txtNomVoiture.setColumns(10);
-		txtNomVoiture.setBounds(152, 56, 135, 20);
+		txtNomVoiture.setBounds(185, 56, 135, 20);
 		panVoiture.add(txtNomVoiture);
 		
 	/** Label **/
@@ -459,64 +459,64 @@ public class FenEdition extends JFrame {
 		
 		lblNomVoiture = new JLabel("Nom de la voiture :");
 		lblNomVoiture.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNomVoiture.setBounds(0, 61, 142, 14);
+		lblNomVoiture.setBounds(33, 61, 142, 14);
 		panVoiture.add(lblNomVoiture);
 		
-		lblVMax = new JLabel("Vitesse maximale :");
+		lblVMax = new JLabel("Vitesse maximale (km/h) :");
 		lblVMax.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblVMax.setBounds(0, 86, 142, 16);
+		lblVMax.setBounds(33, 86, 142, 16);
 		panVoiture.add(lblVMax);
 		
-		lblTempsArret = new JLabel("Temps d'arr\u00EAt au stand :");
-		lblTempsArret.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTempsArret.setBounds(0, 113, 142, 16);
-		panVoiture.add(lblTempsArret);
+		lblTempsPlein = new JLabel("Temps arr\u00EAt pour plein (s) :");
+		lblTempsPlein.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTempsPlein.setBounds(33, 113, 142, 16);
+		panVoiture.add(lblTempsPlein);
 
-		lblAutonomie = new JLabel("Autonomie :");
+		lblAutonomie = new JLabel("Capacit\u00E9 r\u00E9servoir (L|kWh) :");
 		lblAutonomie.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAutonomie.setBounds(0, 141, 142, 16);
+		lblAutonomie.setBounds(33, 141, 142, 16);
 		panVoiture.add(lblAutonomie);
 
-		lblConso = new JLabel("Consommation :");
+		lblConso = new JLabel("Consommation/100 km (L|kWh):");
 		lblConso.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblConso.setBounds(0, 169, 142, 16);
+		lblConso.setBounds(10, 169, 165, 16);
 		panVoiture.add(lblConso);
 		
 		lblType = new JLabel("Type :");
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblType.setBounds(0, 197, 142, 16);
+		lblType.setBounds(33, 197, 142, 16);
 		panVoiture.add(lblType);
 		
 	/** Spinner **/
 		spinVMax = new JSpinner();
 		spinVMax.setModel(new SpinnerNumberModel(new Integer(100), new Integer(0), null, new Integer(10)));
-		spinVMax.setBounds(152, 82, 57, 20);
+		spinVMax.setBounds(185, 82, 57, 20);
 		panVoiture.add(spinVMax);
 		
 		spinTempsArret = new JSpinner();
 		spinTempsArret.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
-		spinTempsArret.setBounds(152, 109, 57, 20);
+		spinTempsArret.setBounds(185, 109, 57, 20);
 		panVoiture.add(spinTempsArret);
 				
 		spinAutonomie = new JSpinner();
 		spinAutonomie.setModel(new SpinnerNumberModel(new Integer(100), new Integer(1), null, new Integer(10)));
-		spinAutonomie.setBounds(152, 137, 57, 20);
+		spinAutonomie.setBounds(185, 137, 57, 20);
 		panVoiture.add(spinAutonomie);
 	
 		spinConso = new JSpinner();
 		spinConso.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinConso.setBounds(152, 165, 57, 20);
+		spinConso.setBounds(185, 165, 57, 20);
 		panVoiture.add(spinConso);
 		
 	/** RadioButton **/
 		radioVoitTherm = new JRadioButton("Thermique");
 		radioVoitTherm.setMnemonic('1');
-		radioVoitTherm.setBounds(152, 192, 118, 24);
+		radioVoitTherm.setBounds(185, 192, 118, 24);
 		panVoiture.add(radioVoitTherm);
 		
 		radioVoitElec = new JRadioButton("Electrique");
 		radioVoitElec.setMnemonic('2');
-		radioVoitElec.setBounds(152, 220, 118, 24);
+		radioVoitElec.setBounds(185, 220, 118, 24);
 		panVoiture.add(radioVoitElec);
 		
 		ButtonGroup groupType = new ButtonGroup();
@@ -574,39 +574,39 @@ public class FenEdition extends JFrame {
 		lblNomVoitHybr.setBounds(0, 60, 195, 14);
 		panVoitHybr.add(lblNomVoitHybr);
 		
-		lblVMaxHybr = new JLabel("Vitesse maximale :");
+		lblVMaxHybr = new JLabel("Vitesse maximale (km/h) :");
 		lblVMaxHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblVMaxHybr.setBounds(0, 118, 142, 16);
+		lblVMaxHybr.setBounds(44, 118, 142, 16);
 		panVoitHybr.add(lblVMaxHybr);
 		
-		lblArretStandHybr = new JLabel("Temps d'arr\u00EAt au stand :");
+		lblArretStandHybr = new JLabel("Temps arr\u00EAt pour plein (s) :");
 		lblArretStandHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblArretStandHybr.setBounds(0, 145, 142, 16);
+		lblArretStandHybr.setBounds(44, 145, 142, 16);
 		panVoitHybr.add(lblArretStandHybr);
 		
-		lblAutonomieHybr = new JLabel("Autonomie :");
+		lblAutonomieHybr = new JLabel("Capacit\u00E9 r\u00E9servoir (L|kWh) :");
 		lblAutonomieHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAutonomieHybr.setBounds(0, 173, 142, 16);
+		lblAutonomieHybr.setBounds(44, 173, 142, 16);
 		panVoitHybr.add(lblAutonomieHybr);
 		
-		lblConsoHybr = new JLabel("Consommation :");
+		lblConsoHybr = new JLabel("Consommation/100km (L|kWh) :");
 		lblConsoHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblConsoHybr.setBounds(0, 201, 142, 16);
+		lblConsoHybr.setBounds(16, 201, 170, 16);
 		panVoitHybr.add(lblConsoHybr);
 		
 		lblMoteur = new JLabel("Moteur");
 		lblMoteur.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMoteur.setBounds(85, 93, 54, 14);
+		lblMoteur.setBounds(129, 93, 54, 14);
 		panVoitHybr.add(lblMoteur);
 		
 		lblThermique = new JLabel("Thermique");
 		lblThermique.setHorizontalAlignment(SwingConstants.CENTER);
-		lblThermique.setBounds(151, 93, 80, 14);
+		lblThermique.setBounds(195, 93, 80, 14);
 		panVoitHybr.add(lblThermique);
 		
 		lblElectrique = new JLabel("Electrique");
 		lblElectrique.setHorizontalAlignment(SwingConstants.CENTER);
-		lblElectrique.setBounds(249, 93, 57, 14);
+		lblElectrique.setBounds(293, 93, 57, 14);
 		panVoitHybr.add(lblElectrique);
 		
 	/** ComboBox **/
@@ -618,42 +618,42 @@ public class FenEdition extends JFrame {
 		
 	/** Spinner **/
 		spinVMaxTherm = new JSpinner();
-		spinVMaxTherm.setBounds(161, 114, 57, 20);
+		spinVMaxTherm.setBounds(205, 114, 57, 20);
 		spinVMaxTherm.setModel(new SpinnerNumberModel(new Integer(100), new Integer(0), null, new Integer(10)));
 		panVoitHybr.add(spinVMaxTherm);
 		
 		spinTempsArretTherm = new JSpinner();
-		spinTempsArretTherm.setBounds(161, 141, 57, 20);
+		spinTempsArretTherm.setBounds(205, 141, 57, 20);
 		spinTempsArretTherm.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
 		panVoitHybr.add(spinTempsArretTherm);
 		
 		spinAutonomieTherm = new JSpinner();
-		spinAutonomieTherm.setBounds(161, 169, 57, 20);
+		spinAutonomieTherm.setBounds(205, 169, 57, 20);
 		spinAutonomieTherm.setModel(new SpinnerNumberModel(new Integer(100), new Integer(1), null, new Integer(10)));
 		panVoitHybr.add(spinAutonomieTherm);
 		
 		spinConsoTherm = new JSpinner();
-		spinConsoTherm.setBounds(161, 197, 57, 20);
+		spinConsoTherm.setBounds(205, 197, 57, 20);
 		spinConsoTherm.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		panVoitHybr.add(spinConsoTherm);
 		
 		spinVMaxElec = new JSpinner();
-		spinVMaxElec.setBounds(249, 114, 57, 20);
+		spinVMaxElec.setBounds(293, 114, 57, 20);
 		spinVMaxElec.setModel(new SpinnerNumberModel(new Integer(100), new Integer(0), null, new Integer(10)));
 		panVoitHybr.add(spinVMaxElec);
 		
 		spinTempsArretElec = new JSpinner();
-		spinTempsArretElec.setBounds(249, 141, 57, 20);
+		spinTempsArretElec.setBounds(293, 141, 57, 20);
 		spinTempsArretElec.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
 		panVoitHybr.add(spinTempsArretElec);
 		
 		spinAutonomieElec = new JSpinner();
-		spinAutonomieElec.setBounds(249, 169, 57, 20);
+		spinAutonomieElec.setBounds(293, 169, 57, 20);
 		spinAutonomieElec.setModel(new SpinnerNumberModel(new Integer(100), new Integer(1), null, new Integer(10)));
 		panVoitHybr.add(spinAutonomieElec);
 		
 		spinConsoElec = new JSpinner();
-		spinConsoElec.setBounds(249, 197, 57, 20);
+		spinConsoElec.setBounds(293, 197, 57, 20);
 		spinConsoElec.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		panVoitHybr.add(spinConsoElec);
 		
@@ -667,12 +667,12 @@ public class FenEdition extends JFrame {
 		panVoitHybr.add(sepBas);
 		
 		sepMilieu = new JSeparator();
-		sepMilieu.setBounds(19, 108, 296, 5);
+		sepMilieu.setBounds(63, 108, 296, 5);
 		panVoitHybr.add(sepMilieu);
 		
 		sepColonnes = new JSeparator();
 		sepColonnes.setOrientation(SwingConstants.VERTICAL);
-		sepColonnes.setBounds(236, 86, 5, 147);
+		sepColonnes.setBounds(280, 86, 5, 147);
 		panVoitHybr.add(sepColonnes);
 		
 	/** Button **/
@@ -730,12 +730,9 @@ public class FenEdition extends JFrame {
 		
 		for (int i = 0; i < listeFichiers.length; i++)
 		{
-			if(listeFichiers[i].toString().substring(listeFichiers[i].toString().length()-3, listeFichiers[i].toString().length()).equals("cir"))
-			{
-				String tmp = listeFichiers[i].toString().replace("Circuits\\", "").replace(".cir", "");
-				listeCircuits[i] = tmp;
-				boxCircuit.addItem(tmp);
-			}
+			String tmp = listeFichiers[i].toString().replace("Circuits\\", "").replace(".cir", "");
+			listeCircuits[i] = tmp;
+			boxCircuit.addItem(tmp);
 		}
 		lstCircuitsDispo.setListData(listeCircuits);
 	}
@@ -900,7 +897,7 @@ public class FenEdition extends JFrame {
 		public void stateChanged(ChangeEvent e) {
 			if (e.getSource() == spinLongueurCircuit)
 			{
-				spinPositionStands.setModel(new SpinnerNumberModel(new Integer((int) spinPositionStands.getValue()), new Integer(1), new Integer((int) spinLongueurCircuit.getValue()), new Integer(10)));
+				spinPositionStands.setModel(new SpinnerNumberModel(new Integer((Integer) spinPositionStands.getValue()), new Integer(1), new Integer((Integer) spinLongueurCircuit.getValue()), new Integer(10)));
 			}
 		}
 	}
@@ -1246,7 +1243,7 @@ public class FenEdition extends JFrame {
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw);
 				fichierSortie.println(txtNomCircuit.getText());
-				fichierSortie.println(spinLongueurCircuit.getValue().toString()+'\n'+spinPositionStands.getValue().toString()+'\n'+spinVMax.getValue().toString()+'\n'+spinNbreTours.getValue().toString());
+				fichierSortie.println(spinLongueurCircuit.getValue().toString()+'\n'+spinPositionStands.getValue().toString()+'\n'+spinVitesseMax.getValue().toString()+'\n'+spinNbreTours.getValue().toString());
 			fichierSortie.close();
 		}
 		catch (Exception exc){

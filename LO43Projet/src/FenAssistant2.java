@@ -148,19 +148,26 @@ public class FenAssistant2 extends JFrame {
 				}
 				else
 				{
-					
 					//Enregistrement des données pour la simulation
 					String fichier="Donnees/Simulation.txt";
 					try {
-						FileWriter fw = new FileWriter (fichier,true);
+						FileWriter fw = new FileWriter (fichier, true);
 						BufferedWriter bw = new BufferedWriter (fw);
 						PrintWriter fichierSortie = new PrintWriter (bw);
+						
 						fichierSortie.println (boxSaison.getSelectedItem().toString()); 
+						fichierSortie.println (lstCircuitsSelec.getModel().getSize()); 
+						for (int i = 0; i < lstCircuitsSelec.getModel().getSize(); i++)
+						{
+							fichierSortie.println(lstCircuitsSelec.getModel().getElementAt(i));
+						}
+						
 						fichierSortie.close(); 
 					}
 					catch (Exception g){
 						System.out.println(g.toString());
-					}				
+					}
+					
 					setVisible(false);
 					dispose();
 					new FenSimulation();

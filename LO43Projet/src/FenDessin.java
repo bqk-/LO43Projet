@@ -38,7 +38,7 @@ public class FenDessin extends JDialog {
 	
 	public FenDessin(String nomCircuit) {
 		setTitle("Dessiner un circuit");
-		setSize(437, 437);
+		setSize(300, 437);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -49,17 +49,17 @@ public class FenDessin extends JDialog {
 		
 		spinNbrePoints = new JSpinner();
 		spinNbrePoints.setModel(new SpinnerNumberModel(new Integer(3), new Integer(3), null, new Integer(1)));
-		spinNbrePoints.setBounds(234, 13, 48, 20);
+		spinNbrePoints.setBounds(130, 12, 48, 20);
 		getContentPane().add(spinNbrePoints);
 		
 		lblNbrePoints = new JLabel("Nombre de points :");
 		lblNbrePoints.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNbrePoints.setBounds(114, 14, 114, 16);
+		lblNbrePoints.setBounds(10, 13, 114, 16);
 		getContentPane().add(lblNbrePoints);
 		
 		panZoneDessin = new PanelDessin();
 		panZoneDessin.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panZoneDessin.setBounds(0, 54, 421, 258);
+		panZoneDessin.setBounds(0, 54, 298, 200);
 		getContentPane().add(panZoneDessin);
 		
 		lblZoneDessin = new JLabel("Zone de dessin :");
@@ -67,23 +67,23 @@ public class FenDessin extends JDialog {
 		getContentPane().add(lblZoneDessin);
 		
 		btnValider = new JButton("Valider");
-		btnValider.setBounds(322, 363, 89, 23);
+		btnValider.setBounds(188, 375, 89, 23);
 		btnValider.setEnabled(false);
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
 		
 		btnDessiner = new JButton("Dessiner");
-		btnDessiner.setBounds(299, 12, 89, 23);
+		btnDessiner.setBounds(188, 11, 89, 23);
 		btnDessiner.addActionListener(new GestionBoutons());
 		getContentPane().add(btnDessiner);
 		
 		lblNbrePointsRestants = new JLabel("Nombre de points restants :");
 		lblNbrePointsRestants.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNbrePointsRestants.setBounds(7, 370, 160, 16);
+		lblNbrePointsRestants.setBounds(10, 323, 173, 16);
 		getContentPane().add(lblNbrePointsRestants);
 		
 		lblPointsRestants = new JLabel("");
-		lblPointsRestants.setBounds(179, 370, 32, 16);
+		lblPointsRestants.setBounds(193, 323, 32, 16);
 		getContentPane().add(lblPointsRestants);
 		
 		setVisible(true);
@@ -91,27 +91,24 @@ public class FenDessin extends JDialog {
 	
 	public void enregistrerCircuit(String nomCircuit)
 	{
-		File fichier = new File("Circuits\\" + nomCircuit + ".tra");
-		
-		if (!fichier.exists())
-		{			
-			try{				
-				FileWriter fw = new FileWriter (fichier);
-				BufferedWriter bw = new BufferedWriter (fw);
-				PrintWriter fichierSortie = new PrintWriter (bw);
+		File fichier = new File("Dessins\\" + nomCircuit + ".tra");
 
-				fichierSortie.println(m_nbPoints);
-				for (int i = 0; i < m_nbPoints; i++)
-				{				
-					fichierSortie.println(m_x[i]);
-					fichierSortie.println(m_y[i]);
-				}
+		try{
+			FileWriter fw = new FileWriter (fichier);
+			BufferedWriter bw = new BufferedWriter (fw);
+			PrintWriter fichierSortie = new PrintWriter (bw);
 
-				bw.close();
+			fichierSortie.println(m_nbPoints);
+			for (int i = 0; i < m_nbPoints; i++)
+			{				
+				fichierSortie.println(m_x[i]);
+				fichierSortie.println(m_y[i]);
 			}
-			catch (Exception exc){
-				System.out.println(exc.toString());
-			}
+
+			bw.close();
+		}
+		catch (Exception exc){
+			System.out.println(exc.toString());
 		}
 	}
 	
@@ -176,7 +173,7 @@ public class FenDessin extends JDialog {
 				{
 					if (m_nbPoints == 0)
 					{
-						m_nbPoints = (int) spinNbrePoints.getValue();
+						m_nbPoints = (Integer) spinNbrePoints.getValue();
 						ptsRestants = m_nbPoints;
 						m_x = new int[m_nbPoints];
 						m_y = new int[m_nbPoints];

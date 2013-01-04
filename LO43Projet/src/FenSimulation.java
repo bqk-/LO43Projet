@@ -1,225 +1,348 @@
 import javax.swing.*;
-
+import javax.swing.border.BevelBorder;
+import java.awt.Color;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class FenSimulation extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel Saison;
-	private JLabel lblEcurie;
-	private JLabel Circuit;
-	private JLabel lblVoitures;
-	private JLabel lblVoiture;
-	private JLabel label_3;
-	private JLabel label_4;
-	private JLabel lblTemps;
-	private JLabel lblTempsTotal;
-	private JLabel lblTour;
+	private PanelDessin panZoneDessin;
 	private JTextField nomEcurie;
 	private JTextField nomSaison;
 	private JTextField nomCircuit;
 	private JTextField v1;
 	private JTextField v2;
 	private JTextField v3;
-	private JSeparator separator_4;
-	private JSeparator separator_3;
-	private JSeparator separator_2;
-	private JSeparator separator_1;
-	private JSeparator separator;
-	private int circuitCourant;
-	private int nbCir;
-	private String listCircuits[];
+	private JSeparator sepVert;
+	private JSeparator sep1;
+	private JSeparator sep2;
+	private JSeparator sep3;
+	private JSeparator sep4;
+	private JLabel lblEcurie;
+	private JLabel lblSaison;
+	private JLabel lblCircuit;
+	private JLabel lblVoitures;
+	private JLabel lblThermique;
+	private JLabel lblElectrique;
+	private JLabel lblHybride;
+	private JLabel lblTemps;
+	private JButton btnSimulerCircuit;
 	private JButton btnCircuitSuivant;
+	private JButton btnRetourMenu;
+	private JLabel lblTempsThermique;
+	private JLabel lblTempsElectrique;
+	private JLabel lblTempsHybride;
+	
+	private int numeroCircuit = 0;
+	private String[] m_listeCircuits;
 	
 	public FenSimulation() {
-		
 		setResizable(false);
-		setSize(440,350);
+		setSize(451,410);
 		setLocationRelativeTo(null);
 		setTitle("Simulation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(303, 0, 12, 322);
-		getContentPane().add(separator);
-		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(303, 57, 131, 2);
-		getContentPane().add(separator_1);
-		
-		JLabel lblEcurie = new JLabel("Ecurie");
-		lblEcurie.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblEcurie.setBounds(314, 4, 89, 19);
-		getContentPane().add(lblEcurie);
 		
 		nomEcurie = new JTextField();
 		nomEcurie.setEditable(false);
-		nomEcurie.setBounds(324, 23, 89, 23);
+		nomEcurie.setBounds(324, 19, 89, 23);
 		getContentPane().add(nomEcurie);
 		nomEcurie.setColumns(10);
-		
-		JLabel Saison = new JLabel("Saison");
-		Saison.setFont(new Font("Tahoma", Font.BOLD, 15));
-		Saison.setBounds(314, 70, 89, 19);
-		getContentPane().add(Saison);
 		
 		nomSaison = new JTextField();
 		nomSaison.setEditable(false);
 		nomSaison.setColumns(10);
-		nomSaison.setBounds(325, 93, 89, 23);
+		nomSaison.setBounds(325, 89, 89, 23);
 		getContentPane().add(nomSaison);
-		
-		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(303, 127, 131, 2);
-		getContentPane().add(separator_2);
-		
-		JLabel Circuit = new JLabel("Circuit");
-		Circuit.setFont(new Font("Tahoma", Font.BOLD, 15));
-		Circuit.setBounds(314, 137, 89, 19);
-		getContentPane().add(Circuit);
 		
 		nomCircuit = new JTextField();
 		nomCircuit.setEditable(false);
 		nomCircuit.setColumns(10);
-		nomCircuit.setBounds(325, 160, 89, 23);
+		nomCircuit.setBounds(325, 156, 89, 23);
 		getContentPane().add(nomCircuit);
-		
-		JSeparator separator_3 = new JSeparator();
-		separator_3.setBounds(303, 194, 131, 2);
-		getContentPane().add(separator_3);
-		
-		JLabel lblVoitures = new JLabel("Voitures");
-		lblVoitures.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblVoitures.setBounds(313, 207, 89, 19);
-		getContentPane().add(lblVoitures);
 		
 		v1 = new JTextField();
 		v1.setEditable(false);
 		v1.setColumns(10);
-		v1.setBounds(324, 230, 89, 23);
+		v1.setBounds(324, 233, 89, 23);
 		getContentPane().add(v1);
 		
 		v2 = new JTextField();
 		v2.setEditable(false);
 		v2.setColumns(10);
-		v2.setBounds(324, 261, 89, 23);
+		v2.setBounds(324, 264, 89, 23);
 		getContentPane().add(v2);
 		
 		v3 = new JTextField();
 		v3.setEditable(false);
 		v3.setColumns(10);
-		v3.setBounds(324, 290, 89, 23);
+		v3.setBounds(324, 293, 89, 23);
 		getContentPane().add(v3);
 		
-		JSeparator separator_4 = new JSeparator();
-		separator_4.setBounds(0, 137, 299, 2);
-		getContentPane().add(separator_4);
+		sepVert = new JSeparator();
+		sepVert.setOrientation(SwingConstants.VERTICAL);
+		sepVert.setBounds(302, 0, 12, 340);
+		getContentPane().add(sepVert);
 		
-		JLabel lblVoiture = new JLabel("Voiture 1");
-		lblVoiture.setBounds(10, 177, 115, 28);
-		getContentPane().add(lblVoiture);
+		sep1 = new JSeparator();
+		sep1.setBounds(303, 53, 131, 2);
+		getContentPane().add(sep1);
 		
-		JLabel label_3 = new JLabel("Voiture 1");
-		label_3.setBounds(10, 207, 115, 28);
-		getContentPane().add(label_3);
+		sep2 = new JSeparator();
+		sep2.setBounds(303, 123, 131, 2);
+		getContentPane().add(sep2);
 		
-		JLabel label_4 = new JLabel("Voiture 1");
-		label_4.setBounds(10, 236, 115, 28);
-		getContentPane().add(label_4);
+		sep3 = new JSeparator();
+		sep3.setBounds(303, 200, 131, 2);
+		getContentPane().add(sep3);
+	
+		sep4 = new JSeparator();
+		sep4.setBounds(0, 200, 299, 2);
+		getContentPane().add(sep4);
 		
-		JLabel lblTemps = new JLabel("Temps");
-		lblTemps.setBounds(105, 150, 109, 23);
+		lblEcurie = new JLabel("Ecurie");
+		lblEcurie.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblEcurie.setBounds(314, 0, 89, 19);
+		getContentPane().add(lblEcurie);
+		
+	    lblSaison = new JLabel("Saison");
+		lblSaison.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblSaison.setBounds(314, 66, 89, 19);
+		getContentPane().add(lblSaison);
+
+		lblCircuit = new JLabel("Circuit");
+		lblCircuit.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblCircuit.setBounds(314, 133, 89, 19);
+		getContentPane().add(lblCircuit);
+
+		lblVoitures = new JLabel("Voitures");
+		lblVoitures.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblVoitures.setBounds(311, 210, 89, 19);
+		getContentPane().add(lblVoitures);
+		
+	    lblThermique = new JLabel("Voiture 1");
+		lblThermique.setBounds(10, 240, 80, 28);
+		getContentPane().add(lblThermique);
+		
+		lblElectrique = new JLabel("Voiture 1");
+		lblElectrique.setBounds(10, 270, 80, 28);
+		getContentPane().add(lblElectrique);
+		
+		lblHybride = new JLabel("Voiture 1");
+		lblHybride.setBounds(10, 299, 80, 28);
+		getContentPane().add(lblHybride);
+		
+		lblTemps = new JLabel("Temps");
+		lblTemps.setBounds(105, 213, 109, 23);
 		getContentPane().add(lblTemps);
+				
+		chargerDonnees();
 		
-		JLabel lblTempsTotal = new JLabel("Temps total :");
-		lblTempsTotal.setBounds(20, 261, 109, 23);
-		getContentPane().add(lblTempsTotal);
+		panZoneDessin = new PanelDessin();
+		panZoneDessin.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panZoneDessin.setBounds(0, 0, 298, 200);
+		getContentPane().add(panZoneDessin);
 		
-		JButton btnCircuitSuivant = new JButton("Circuit suivant");
-		btnCircuitSuivant.setBounds(149, 287, 144, 28);
+		btnCircuitSuivant = new JButton("Circuit suivant");
+		btnCircuitSuivant.setVisible(false);
+		btnCircuitSuivant.setBounds(292, 346, 144, 28);
 		btnCircuitSuivant.addActionListener(new GestionBoutons());
 		getContentPane().add(btnCircuitSuivant);
+
 		
-		String fichier="Donnees/Simulation.txt";
+		btnSimulerCircuit = new JButton("Simuler circuit");
+		btnSimulerCircuit.setBounds(139, 346, 144, 28);
+		btnSimulerCircuit.addActionListener(new GestionBoutons());
+		getContentPane().add(btnSimulerCircuit);
+		
+		btnRetourMenu = new JButton("Retour au menu");
+		btnRetourMenu.setVisible(false);
+		btnRetourMenu.setBounds(292, 346, 144, 28);
+		btnRetourMenu.addActionListener(new GestionBoutons());
+		getContentPane().add(btnRetourMenu);
+		
+		
+		lblTempsThermique = new JLabel("");
+		lblTempsThermique.setBounds(100, 247, 71, 14);
+		getContentPane().add(lblTempsThermique);
+		
+		lblTempsElectrique = new JLabel("");
+		lblTempsElectrique.setBounds(100, 277, 71, 14);
+		getContentPane().add(lblTempsElectrique);
+		
+		lblTempsHybride = new JLabel("");
+		lblTempsHybride.setBounds(100, 306, 71, 14);
+		getContentPane().add(lblTempsHybride);
+		
+
+		setVisible(true);
+	}
+
+	public void chargerDonnees()
+	{
+		File fichier = new File("Donnees/Simulation.txt");
+		
 		try{
 			InputStream ips=new FileInputStream(fichier); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
 			BufferedReader br=new BufferedReader(ipsr);
-			String ligne;
-			ligne=br.readLine();
-			nomEcurie.setText(ligne);
-			ligne=br.readLine();
-			v1.setText(ligne);
-			lblVoiture.setText(ligne);
-			ligne=br.readLine();
-			v2.setText(ligne);
-			label_3.setText(ligne);
-			ligne=br.readLine();
-			v3.setText(ligne);
-			label_4.setText(ligne);
-			ligne=br.readLine();
-			nomSaison.setText(ligne);
-			String fichier2="Saisons/"+ligne+".sai";
-			try{
-				InputStream ips2=new FileInputStream(fichier2); 
-				InputStreamReader ipsr2=new InputStreamReader(ips2);
-				BufferedReader br2=new BufferedReader(ipsr2);
-				String ligne2;
-				ligne2=br2.readLine(); //Nom saison, on passe
-				ligne2=br2.readLine(); //Nb circuits
-				nbCir=Integer.parseInt(ligne2);
-				listCircuits=new String[nbCir];
-				for(int k=0;k<nbCir;k++)
-				{
-					ligne2=br2.readLine();
-					listCircuits[k]=ligne2;
-				}
-				br2.close(); 
-				nomCircuit.setText(listCircuits[0]);
-				circuitCourant=0;
-			}		
-			catch (Exception g){
-				System.out.println(g.toString());
+			
+			nomEcurie.setText(br.readLine());
+			String tmp = br.readLine();
+			v1.setText(tmp);
+			lblThermique.setText(tmp);
+			tmp = br.readLine();
+			v2.setText(tmp);
+			lblElectrique.setText(tmp);
+			tmp = br.readLine();
+			v3.setText(tmp);
+			lblHybride.setText(tmp);
+			nomSaison.setText(br.readLine());
+			m_listeCircuits = new String[Integer.parseInt(br.readLine())];
+			for (int i = 0; i < m_listeCircuits.length; i++)
+			{
+				m_listeCircuits[i] = br.readLine();
 			}
+			
+			nomCircuit.setText(m_listeCircuits[0]);
+	
 			br.close(); 
-		}		
-		catch (Exception g){
-			System.out.println(g.toString());
 		}
-		
-		setVisible(true);
+		catch (Exception exc){
+			System.out.println(exc.toString());
+		}
 	}
-
+	
+	
+	class PanelDessin extends JPanel {
+		private static final long serialVersionUID = 1L;
+		private int m_nbrePoints = 0;
+		private int[] m_x;
+		private int[] m_y;
+		public JLabel lblCircuitNonDessine;
+		
+	    public PanelDessin() {
+	        super();
+	        setOpaque(false); // we don't paint all our bits
+	        setLayout(null);
+	        setBorder(BorderFactory.createLineBorder(Color.black));
+	        
+	        lblCircuitNonDessine = new JLabel("");
+			lblCircuitNonDessine.setHorizontalAlignment(SwingConstants.CENTER);
+			lblCircuitNonDessine.setBounds(0, 0, 298, 200);
+			lblCircuitNonDessine.setVisible(false);
+			getContentPane().add(lblCircuitNonDessine);
+			
+	        chargerDessin();
+	    }
+	    
+	    public void chargerDessin()
+	    {
+		    File fichier = new File("Dessins\\"+nomCircuit.getText()+".tra");
+			
+			if (fichier.exists())
+			{
+				lblCircuitNonDessine.setVisible(false);
+				lblCircuitNonDessine.setText("");
+				try{
+					InputStream ips=new FileInputStream(fichier); 
+					InputStreamReader ipsr=new InputStreamReader(ips);
+					BufferedReader br=new BufferedReader(ipsr);
+					
+					m_nbrePoints = Integer.parseInt(br.readLine());
+					m_x = new int[m_nbrePoints];
+					m_y = new int [m_nbrePoints];
+					for (int i = 0; i < m_nbrePoints; i++)
+					{
+						m_x[i] = Integer.parseInt(br.readLine());
+						m_y[i] = Integer.parseInt(br.readLine());
+					}
+			
+					br.close(); 
+				}
+				catch (Exception exc) {
+					System.out.println(exc.toString());
+				}
+		    }
+			else
+			{
+				lblCircuitNonDessine.setVisible(true);
+				lblCircuitNonDessine.setText("Le circuit n'a pas été dessiné !");
+			}
+	    }
+	
+	    protected void paintComponent(final Graphics g) {
+	        super.paintComponent(g);
+	        if (m_nbrePoints != 0)
+	        {
+	        	g.drawPolygon(m_x, m_y, m_nbrePoints);
+	        }
+	    }
+	}
+	
 	class GestionBoutons implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btnCircuitSuivant)
+			if (e.getSource() == btnSimulerCircuit)
 			{
-				if(circuitCourant != (nbCir-1))
+				btnSimulerCircuit.setEnabled(false);
+				Circuit circuitActuel = new Circuit(nomCircuit.getText());
+				Voiture thermique = new Voiture(v1.getText());
+				Voiture electrique = new Voiture(v2.getText());
+				Voiture_hybride hybride = new Voiture_hybride(v3.getText());
+				
+				numeroCircuit++;
+				
+				thermique.simulerCourse(circuitActuel);
+				lblTempsThermique.setText(thermique.afficherTemps(thermique.getTempsCourse()));
+				electrique.simulerCourse(circuitActuel);
+				lblTempsElectrique.setText(electrique.afficherTemps(electrique.getTempsCourse()));
+				hybride.simulerCourse(circuitActuel);
+				lblTempsHybride.setText(hybride.afficherTemps(hybride.getTempsCourse()));
+				
+				if (numeroCircuit < m_listeCircuits.length)
 				{
-					circuitCourant++;
-					nomCircuit.setText(listCircuits[circuitCourant]);
-					if(circuitCourant==(nbCir-1))
-						btnCircuitSuivant.setText("Résultats de la saison");
+					btnCircuitSuivant.setVisible(true);
 				}
 				else
 				{
-					//Fin de la simulation, saison terminée, afficher les résultats de tous les circuits
+					btnRetourMenu.setVisible(true);
 				}
+			}
+			else if (e.getSource() == btnCircuitSuivant)
+			{
+				btnCircuitSuivant.setVisible(false);
+				btnSimulerCircuit.setEnabled(true);
+				
+				nomCircuit.setText(m_listeCircuits[numeroCircuit]);
+				lblTempsThermique.setText("");
+				lblTempsElectrique.setText("");
+				lblTempsHybride.setText("");
+				
+				panZoneDessin.lblCircuitNonDessine.setVisible(false);
+				panZoneDessin.setVisible(false);
+				getContentPane().remove(panZoneDessin);
+				panZoneDessin = new PanelDessin();
+				panZoneDessin.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				panZoneDessin.setBounds(0, 0, 298, 200);
+				getContentPane().add(panZoneDessin);
+			}
+			else if (e.getSource() == btnRetourMenu)
+			{
+				setVisible(false);
+				dispose();
+				new FenPrincipale();
 			}
 		}
 	}

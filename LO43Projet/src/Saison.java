@@ -16,7 +16,9 @@ public class Saison
 	/** Constructeur par défaut **/
 	public Saison()
 	{
-	} 
+		m_nom = "";
+		m_listeCircuits = null;
+	}
 	
 	/** Constructeur par valeurs **/
 	public Saison(String nom, ArrayList<Circuit> listeCircuits)
@@ -27,48 +29,29 @@ public class Saison
 	
 	public Saison(String filename)
 	{   
-		int i,taille;
-		//le chemin relatif ou se trouve le fichier
+		
 		String fichier="Saisons/"+filename+".sai";
 		try{
+			int i;
+			
 			InputStream ips=new FileInputStream(fichier); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
 			BufferedReader br=new BufferedReader(ipsr);
-			String ligne;
-			//On récupère le nom du circuit, qu'on connait déjà
-			ligne=br.readLine();
-			m_nom=ligne;
-			//on récupère et reformate le nombre de circuits associés à la saison
-			ligne=br.readLine();
-			taille=Integer.parseInt(ligne);
-			
-			//on peut donc avec certitude ré-inserer les circuits uns par uns
+			m_nom=br.readLine();
+
 			m_listeCircuits = new ArrayList<Circuit>();
-			m_listeCircuits.ensureCapacity(taille);
+			m_listeCircuits.ensureCapacity(Integer.parseInt(br.readLine()));
+			
 			for(i=0;i<m_listeCircuits.size();i++)
 			{
-				ligne=br.readLine();
-				
-				Circuit circuitTmp = new Circuit();
-				circuitTmp.lireCircuitF(ligne);
-				m_listeCircuits.set(i, circuitTmp);
+				m_listeCircuits.set(i, new Circuit(br.readLine()));
 			}
 			
-
 			br.close(); 
 		}		
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
-
-	}
-	
-	/** Contructeur par recopie **/
-	public Saison(Saison s)
-	{   
-	    m_nom = s.m_nom;
-	    m_listeCircuits.ensureCapacity(s.m_listeCircuits.size());
-	    m_listeCircuits=(ArrayList<Circuit>) s.m_listeCircuits.clone();
 
 	}
 			
@@ -85,7 +68,7 @@ public class Saison
 	/*************** Mutateurs ***************/
 	public void setNom(String nom)
 	{  
-	    m_nom=this.filtreNom(nom);
+	    m_nom=nom;
 	}
 
 	public void setListeCircuits(ArrayList<Circuit> listeCircuits) {
@@ -108,44 +91,29 @@ public class Saison
 			System.out.println("Erreur, mauvais indice");
 	}
 	
-	public String filtreNom(String nom)
-	{
-		// remplacer tout sauf les lettres et les chiffres par rien
-		return nom.replaceAll("\\W","");
-	}
-	
-	/*********** gestion de Fichiers ***********/
-	/*On suppose que les fichiers écrit respectent la syntaxe établie :
-	  -dans un dossier du même nom que la classe
-	  -nom_de_l'objet.txt
-	  -les variables sont entrées une par ligne, dans l'ordre définit plus haut lors de la création
-	 */
-	
+	/*********** gestion de Fichiers ***********/	
 	public void enregistrerSaisonF()
 	{
-		//Chemin relatif ou on enregistre le fichier saison
 		String fichier="Saisons/"+m_nom+".txt";
-		int i;
-		
+	
 		try {
+			int i;
 			FileWriter fw = new FileWriter (fichier);
 			BufferedWriter bw = new BufferedWriter (fw);
-			PrintWriter fichierSortie = new PrintWriter (bw); 
-				fichierSortie.println (m_nom+"\n"+m_listeCircuits.size()); 
-				for(i=0;i<m_listeCircuits.size();i++)
-				{
-					//on ajoute les noms des circuits dans le fichier de saison
-					fichierSortie.println (m_listeCircuits.get(i).getNom());
-					//ensuite on enregistre les circuits indépendament
-					m_listeCircuits.get(i).enregistrerCircuitF();
-				}
+			PrintWriter fichierSortie = new PrintWriter (bw);
+			
+			fichierSortie.println (m_nom+"\n"+m_listeCircuits.size()); 
+			
+			for(i=0;i<m_listeCircuits.size();i++)
+			{
+				fichierSortie.println (m_listeCircuits.get(i).getNom());
+				m_listeCircuits.get(i).enregistrerCircuitF();
+			}
+			
 			fichierSortie.close(); 
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
-		
-		
-
 	}
 }

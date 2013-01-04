@@ -8,9 +8,6 @@ public class Voiture_hybride {
 	private Voiture m_motTherm;
 	private Voiture m_motElec;
 	private int m_motActuel; //0=thermique, 1=electrique
-	/*Les éléments comme la distance de Calcul de la conso, la distance déjà parcouru et le 
-	 * temps d arret au stand sont stocké dans motTherm
-	 */
 	
 	
 	/************* Constructeurs **************/
@@ -22,29 +19,33 @@ public class Voiture_hybride {
 		m_motElec = new Voiture();
 		m_motActuel = 0;
 	}
-	public Voiture_hybride(String fileName)
+	
+	public Voiture_hybride(String nomFichier)
 	{
-		String fichier="Voitures/"+fileName+".vhy";
+		String fichier="Voitures/"+nomFichier+".vhy";
+		m_motTherm = new Voiture();
+		m_motElec = new Voiture();
+		
 		try{
 			InputStream ips=new FileInputStream(fichier); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
 			BufferedReader br=new BufferedReader(ipsr);
-			String ligne;
-			ligne=br.readLine();
-			m_nom=ligne;
-			//on récupère le reste du bordel
-			ligne=br.readLine();
-			m_motTherm=new Voiture(ligne,"vth");
-			ligne=br.readLine();
-			m_motElec=new Voiture(ligne,"vel");
-			ligne=br.readLine();
-			m_motActuel=Integer.parseInt(ligne);
-			br.close(); 
+			
+			m_nom = br.readLine();
+			m_motTherm.setVMax(Float.parseFloat(br.readLine()));
+			m_motTherm.setTempsPlein(Integer.parseInt(br.readLine()));
+			m_motTherm.setCapaciteReservoir(Float.parseFloat(br.readLine()));
+			m_motTherm.setConsoVMax(Float.parseFloat(br.readLine()));
+			m_motElec.setVMax(Float.parseFloat(br.readLine()));
+			m_motElec.setTempsPlein(Integer.parseInt(br.readLine()));
+			m_motElec.setCapaciteReservoir(Float.parseFloat(br.readLine()));
+			m_motElec.setConsoVMax(Float.parseFloat(br.readLine()));
+				
+			br.close();
 		}		
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
-		
 	}
 	
 	/** Constructeur par valeurs **/
@@ -84,6 +85,10 @@ public class Voiture_hybride {
 	{
 		return m_motActuel;
 	}
+	public float getTempsCourse()
+	{
+		return m_motTherm.getTempsCourse()+m_motElec.getTempsCourse();
+	}
 	
 	/*************** Mutateurs ***************/
 	public void setNom(String nom)
@@ -91,19 +96,19 @@ public class Voiture_hybride {
 		m_nom = nom;
 	}
 	
-	public void setMotTherm(Voiture v)
+	public void setMotTherm(Voiture motTherm)
 	{
-		m_motTherm = v;
+		m_motTherm = motTherm;
 	}
 	
-	public void setMotElec(Voiture v)
+	public void setMotElec(Voiture motElec)
 	{
-		m_motElec = v;
+		m_motElec = motElec;
 	}
 	
-	public void setMotActuel(int v)
+	public void setMotActuel(int i)
 	{
-		m_motActuel = v;
+		m_motActuel = i;
 	}
 	
 	
@@ -120,146 +125,137 @@ public class Voiture_hybride {
 		}
 	}
 
-		
-	/**méthode arretstand hybride**/
-	public Temps arretStandHyb(Circuit c)
+	public void simulerCourse(Circuit c)
 	{
-		Temps tpsTotal = new Temps();
+		Voiture motUtilise = m_motElec;
+		Voiture motArrete = m_motTherm;
+		preparationCourse(c, m_motTherm);
+		preparationCourse(c, m_motElec);
+		m_motActuel = 1;
 		
-		
-		if(((c.getLongueur()*c.getNbTours())-m_motTherm.getDistanceActuelle()) > (m_motTherm.getAutonomieMax()+m_motElec.getAutonomieMax())) // si Distance restante avant la fin de la course est plus petit que l'autonomie max de la voiture hyb
+		for (int tour = 1; tour <= c.getNbTours(); tour++)
 		{
-			//on remplis à fond
-			m_motTherm.remplirReservoir(100);
-			m_motElec.remplirReservoir(100);
-			tpsTotal.setTps((int)((m_motTherm.getAutonomie()*m_motTherm.getTauxRemplissage())+(m_motElec.getAutonomie()*m_motElec.getTauxRemplissage())));
+			if (motUtilise.autonomieRestante() < c.getLongueur()+c.getPosStand())
+			{
+				if (!(tour == c.getNbTours() && motUtilise.autonomieRestante() > c.getLongueur()))
+				{
+					if (motArrete.autonomieRestante() > c.getLongueur()+c.getPosStand())
+					{
+						switcherMoteur();
+						Voiture tmp = motUtilise;
+						motUtilise = motArrete;
+						motArrete = tmp;
+					}
+					else
+					{
+						arretStand(c, tour-1);
+					}
+				}
+			}
 			
-			
+			parcourirTour(motUtilise, c);
+		}
+	}
+
+	public void remplirReservoir(Voiture v, float pourcentage)
+	{
+		if (pourcentage + (v.getReservoirActuel()/v.getCapaciteReservoir()) == 1)
+		{
+			v.setReservoirActuel((float) (Math.ceil(pourcentage*v.getCapaciteReservoir())));
 		}
 		else
 		{
-			if((c.getLongueur()*c.getNbTours()-m_motTherm.getDistanceActuelle()) < m_motTherm.getAutonomie())//si le moteur thermique suffit à finir la course
-			{
-				
-				m_motTherm.remplirReservoir((100*(c.getLongueur()*c.getNbTours()-m_motTherm.getDistanceActuelle()))/m_motTherm.getAutonomieMax());
-				tpsTotal.setTps((int)((m_motTherm.getAutonomie()*m_motTherm.getTauxRemplissage())));
-				
-
-			}
-			else //si le moteur thermique ne suffit pas à finir la course
-			{
-				/*on remplit à fond le moteur therm et relativement le moteur elec*/
-				m_motTherm.remplirReservoir(100);
-				
-				m_motElec.remplirReservoir((100*((c.getLongueur()*c.getNbTours()-m_motTherm.getDistanceActuelle())-m_motTherm.getAutonomieMax()))/m_motElec.getAutonomieMax());
-				tpsTotal.setTps((int)((m_motTherm.getAutonomie()*m_motTherm.getTauxRemplissage())+(m_motElec.getAutonomie()*m_motElec.getTauxRemplissage())));
-				
-			}
-			
+			v.setReservoirActuel((float) (v.getReservoirActuel()+Math.ceil(pourcentage*v.getCapaciteReservoir())));
 		}
-		
-		if (m_motActuel == 1)
-		{
-			m_motActuel = 0;
-		}
-		
-		tpsTotal.setTps(tpsTotal.getTps()); //J'ai du mal à voir l'intérêt de cette ligne
-		return tpsTotal;
+		v.setTempsCourse((float) (v.getTempsCourse()+Math.ceil(pourcentage*v.getTempsPlein())));		
 	}
 	
-	
-	/** méthode parcourirCircuitHyb (renvoie le temps qu'a mis la voiture pour parcours le circuit **/
-	public Temps parcourirCircuitHyb(Circuit c)
+	public void arretStand(Circuit c, int tour)
 	{
-		m_motTherm.setAutonomie( m_motTherm.getAutonomieMax());
-		m_motElec.setAutonomie( m_motElec.getAutonomieMax());
-		m_motTherm.setDistanceActuelle(0);
-		
-		boolean prevoirArretStand = false;
-		float distanceTherm;	//distance parcouru sur un tour avec le mot therm (nécessairre pour le calcul du temps tour)
-		float distanceElec;		//idem pour moteur elec
-		Temps tempsTour = new Temps();
-		Temps tempsTotal = new Temps();
-		
-		for(int i=1 ; i <= c.getNbTours() ; i++)		//fait les tours
-		{
-			distanceTherm = 0;
-			distanceElec = 0;
-			Voiture tmp;
+		float autonomieNecessaire = (c.getNbTours()-tour)*c.getLongueur();
+		float autonomiePleinTherm = (m_motTherm.getCapaciteReservoir()/m_motTherm.getConsoCircuit())*100000;
+		float autonomiePleinElec = (m_motElec.getCapaciteReservoir()/m_motElec.getConsoCircuit())*100000;
+		float autonomiePlein = (float) (autonomiePleinTherm+autonomiePleinElec);
+		float tauxRestantReservoirTherm = m_motTherm.getReservoirActuel()/m_motTherm.getCapaciteReservoir();
+		float tauxRestantReservoirElec = m_motElec.getReservoirActuel()/m_motElec.getCapaciteReservoir(); 
+
+		m_motActuel = 1;
+		if (autonomieNecessaire < autonomiePlein)
+		{	
+			float tauxARemplirRapide;
+			float tauxARemplirLent;
+			float autonomiePleinRapide = autonomiePleinElec;
+			float autonomiePleinLent = autonomiePleinTherm;
+			float tauxRestantReservoirRapide = tauxRestantReservoirElec;
+			Voiture moteurRapide = m_motElec;
+			Voiture moteurLent = m_motTherm;
 			
-			for(float f=0; f < c.getLongueur(); f+=m_motTherm.getDistanceCalcul())		//pendant un tour calcule l autonomie tout les distancecalcul m
+			if (m_motTherm.getVMax() >= m_motElec.getVMax())
 			{
-				if(m_motActuel==0) //elec
-					tmp=new Voiture(m_motTherm);
-				else
-					tmp=new Voiture(m_motElec);
-				if(tmp.getAutonomie() <= (c.getLongueur())) //si l'autonomie du moteur n est pas suffisante pour faire un tour
-				{
-					this.switcherMoteur();
-					if(tmp.getAutonomie() <= (c.getLongueur()) && (i != c.getNbTours())) //si il faut s'arreter au stand et si ce n'est pas le dernier tour
-					{
-						prevoirArretStand = true;
-					}
-					this.switcherMoteur();
-				}
-				
-				if(tmp.getAutonomie() == 0) //change de moteur si panne sêche
-				{
-					this.switcherMoteur();
-				}
-				
-				
-				if(m_motActuel==0) //triche : j ai la flemme de prendre en compte la distance parcouru quand on va au stand
-				{
-					distanceTherm += m_motTherm.getDistanceCalcul();
-				}
-				else
-				{
-					distanceElec += m_motTherm.getDistanceCalcul();
-				}
-				
-				
-				if((prevoirArretStand == true) && (Math.abs(c.getPosStand()-f)<= m_motTherm.getDistanceCalcul())) //si on a prévu un arret au stand et on est proche des stands
-				{
-					float f1 = f;
-					f = c.getPosStand();//je sais plus si c'est vraiment utile
-					
-					m_motTherm.setDistanceActuelle(m_motTherm.getDistanceActuelle()+(c.getPosStand()-f1));
-					
-					
-					m_motTherm.setTempsArretStand( this.arretStandHyb(c));
-					
-					
-					prevoirArretStand = false;
-					f = f1 + m_motTherm.getDistanceCalcul(); 
-					
-					m_motTherm.setDistanceActuelle( m_motTherm.getDistanceActuelle()+ (f-c.getPosStand()));
-					
-					
-				}
-				
-				//on décrémente l autonomie
-				tmp.setAutonomie(tmp.getAutonomie()-tmp.getConso());
-				//on note la distance actuelle
-				m_motTherm.setDistanceActuelle(m_motTherm.getDistanceActuelle() + m_motTherm.getDistanceCalcul());
-				
+				moteurRapide = m_motTherm;
+				moteurLent = m_motElec;
+				autonomiePleinRapide = autonomiePleinTherm;
+				autonomiePleinLent = autonomiePleinElec;
+				tauxRestantReservoirRapide = tauxRestantReservoirTherm;
 			}
 			
-			
-			//temps pour un tour
-			// tempsTour.calculTempsTourHyb(this, c, distanceTherm, distanceElec); //Pas compris à quoi ça sert ou ce que c'est sensé faire, mais en tout cas ça le fait pas
-			
-			//temps total de la course jusqu'à ce point
-			tempsTotal.setTps(tempsTotal.getTps()+tempsTour.getTps());
-			
-			
-			Temps tpstmp= new Temps(0);
-			m_motTherm.setTempsArretStand(tpstmp);
-		
-
+			tauxARemplirRapide = (float) ((autonomieNecessaire-moteurRapide.autonomieRestante())/autonomiePleinRapide);
+			if (autonomiePleinRapide < autonomieNecessaire)
+			{
+				tauxARemplirRapide = 1-tauxRestantReservoirRapide;
+				autonomieNecessaire -= autonomiePleinRapide;
+				
+				tauxARemplirLent = (autonomieNecessaire-moteurLent.autonomieRestante())/autonomiePleinLent;
+				remplirReservoir(moteurLent, tauxARemplirLent);
+			}
+			remplirReservoir(moteurRapide, tauxARemplirRapide);
 		}
+		else
+		{
+			float tauxARemplirTherm;
+			float tauxARemplirElec;
+			
+			tauxARemplirTherm = 1-tauxRestantReservoirTherm;
+			remplirReservoir(m_motTherm, tauxARemplirTherm);
+			tauxARemplirElec = 1-tauxRestantReservoirElec;
+			remplirReservoir(m_motElec, tauxARemplirElec);
+		}
+	}
+
+	public void preparationCourse(Circuit c, Voiture v)
+	{
+		v.setReservoirActuel(v.getCapaciteReservoir());
+		v.setTempsCourse(0);
 		
-		return tempsTotal;
+		if (c.getVMax() < v.getVMax())
+		{
+			v.setMinVitesses((float) (c.getVMax()/3.6));
+			v.setConsoCircuit((float)(c.getVMax()/v.getVMax())*v.getConsoVMax());
+		}
+		else
+		{
+			v.setConsoCircuit(v.getConsoVMax());
+			v.setMinVitesses((float) (v.getVMax()/3.6));
+		}
+	}
+	
+	public void parcourirTour(Voiture v, Circuit c)
+	{
+		v.setReservoirActuel(v.getReservoirActuel()-(v.getConsoCircuit()*c.getLongueur()/100000));
+		v.setTempsCourse(v.getTempsCourse()+(c.getLongueur()/v.getMinVitesses()));
+		
+		if (m_motActuel == 0)
+		{
+			m_motElec.setReservoirActuel((float) (m_motElec.getReservoirActuel()+0.2*(v.getConsoCircuit()*c.getLongueur()/100000)));
+		}
+	}
+	
+	public String afficherTemps(float temps)
+	{
+		int heures = (int) (temps/3600);
+		int minutes = (int) (temps/60)%60;
+		int secondes = (int) (temps % 60);
+		return new String(heures + ":" + minutes + ":" + secondes);
 	}
 
 }

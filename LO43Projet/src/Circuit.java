@@ -4,9 +4,9 @@ import java.io.*;
 public class Circuit implements Cloneable
 {
 	private String m_nom; 
-	private float m_vMax;
-	private float m_longueur;
-	private float m_posStand;
+	private int m_vMax;
+	private int m_longueur;
+	private int m_posStand;
 	private int m_nbTours;
 	int var;
 	
@@ -19,10 +19,10 @@ public class Circuit implements Cloneable
 	    m_longueur = 0;
 	    m_posStand = 0;
 	    m_nbTours = 0;
-	} 
+	}
 	
 	/** Constructeur par valeurs **/
-	public Circuit(String nom, float vMax, float longueur, float posStand, int nbTours)
+	public Circuit(String nom, int vMax, int longueur, int posStand, int nbTours)
 	{
 		m_nom = nom;
 	    m_vMax = vMax;
@@ -40,20 +40,41 @@ public class Circuit implements Cloneable
 	    m_nbTours = v.m_nbTours;
 	}
 	
+	public Circuit(String nomFichier)
+	{
+		String fichier="Circuits/"+nomFichier+".cir";
+		try{
+			InputStream ips = new FileInputStream(fichier); 
+			InputStreamReader ipsr = new InputStreamReader(ips);
+			BufferedReader br = new BufferedReader(ipsr);
+			
+			m_nom = br.readLine();
+			m_longueur = Integer.parseInt(br.readLine());
+			m_posStand = Integer.parseInt(br.readLine());
+			m_vMax = Integer.parseInt(br.readLine());
+			m_nbTours = Integer.parseInt(br.readLine());
+
+			br.close();
+		}
+		catch (Exception e){
+			System.out.println(e.toString());
+		}
+	}
+	
 	/************* Accesseurs **************/
 	public String getNom() {
 		return m_nom;
 	}
 
-	public float getVMax() {
+	public int getVMax() {
 		return m_vMax;
 	}
 
-	public float getLongueur() {
+	public int getLongueur() {
 		return m_longueur;
 	}
 
-	public float getPosStand() {
+	public int getPosStand() {
 		return m_posStand;
 	}
 
@@ -66,15 +87,15 @@ public class Circuit implements Cloneable
 		m_nom = nom;
 	}
 
-	public void setVMax(float vMax) {
+	public void setVMax(int vMax) {
 		m_vMax = vMax;
 	}
 
-	public void setLongueur(float longueur) {
+	public void setLongueur(int longueur) {
 		m_longueur = longueur;
 	}
 
-	public void setPosStand(float posStand) {
+	public void setPosStand(int posStand) {
 		m_posStand = posStand;
 	}
 
@@ -82,7 +103,7 @@ public class Circuit implements Cloneable
 		m_nbTours = nbTours;
 	}
 	
-	public void setGlobal(String nom, float vMax, float longueur, float posStand, int nbTours)
+	public void setGlobal(String nom, int vMax, int longueur, int posStand, int nbTours)
 	{
 		m_nom = nom;
 	    m_vMax = vMax;
@@ -92,43 +113,7 @@ public class Circuit implements Cloneable
 	}
 	
 	/*********** gestion de Fichiers ***********/
-	/*On suppose que les fichiers écrit respectent la syntaxe établie :
-	  -dans un dossier du même nom que la classe
-	  -nom_de_l'objet.txt
-	  -les variables sont entrées une par ligne, dans l'ordre définit plus haut
-	 */
-	
-	public void lireCircuitF(String nomFichier)
-	{
-		//le chemin relatif ou se trouve le fichier
-		String fichier="Circuits/"+nomFichier+".txt";
-		try{
-			InputStream ips=new FileInputStream(fichier); 
-			InputStreamReader ipsr=new InputStreamReader(ips);
-			BufferedReader br=new BufferedReader(ipsr);
-			String ligne;
-			//On récupère le nom du circuit
-			ligne=br.readLine();
-			m_nom=ligne;
-			//on récupère et reformate sa vitesse maximale
-			ligne=br.readLine();
-			m_vMax=Float.parseFloat(ligne);
-			// ainsi de suite ...
-			ligne=br.readLine();
-			m_longueur=Float.parseFloat(ligne);
-			ligne=br.readLine();
-			m_posStand=Float.parseFloat(ligne);
-			ligne=br.readLine();
-			m_nbTours=Integer.parseInt(ligne);
-			
 
-			br.close(); 
-		}		
-		catch (Exception e){
-			System.out.println(e.toString());
-		}
-	}
-	
 	public void enregistrerCircuitF()
 	{
 		//Chemin relatif ou on enregistre le fichier
@@ -139,42 +124,12 @@ public class Circuit implements Cloneable
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 				//On écrit les variables, une par ligne
-				fichierSortie.println (m_nom+"\n"+m_vMax+"\n"+m_longueur+"\n"+m_posStand+"\n"+m_nbTours); 
+				fichierSortie.println (m_nom+"\n"+m_longueur+"\n"+m_posStand+"\n"+m_vMax+"\n"+m_nbTours); 
 			fichierSortie.close(); 
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
 	}
-	
-	/*********** Méthodes ***********/
-	public Circuit clone()
-	{
-		
-	    Circuit circuit= new Circuit();
-	    
-	    try
-	    {
-	      	circuit = (Circuit) super.clone();
-	    }
-	    catch(CloneNotSupportedException cnse)
-	    {
-	      	cnse.printStackTrace(System.err);
-	    }
 
-	    return circuit;
-	}
-	
-	public String filtreNom(String nom)
-	{
-		// remplacer tout sauf les lettres et les chiffres par rien
-		return nom.replaceAll("\\W","");
-	}
-	
-	public Float filtreLongueur(Float variable)
-	{
-		if(variable <0)
-			variable=-1*variable;
-		return variable;
-	}
 }
