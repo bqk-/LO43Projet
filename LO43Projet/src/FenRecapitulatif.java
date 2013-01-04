@@ -72,7 +72,6 @@ public class FenRecapitulatif extends JFrame {
 			public void mouseReleased(MouseEvent arg0) {
 				setVisible(false);
 				dispose();
-				System.out.println("ici3");
 				new FenPrincipale();
 			}
 		});
