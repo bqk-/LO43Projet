@@ -6,10 +6,13 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class FenSimulation extends JFrame {
 
@@ -166,7 +169,7 @@ public class FenSimulation extends JFrame {
 		btnSimulerCircuit.addActionListener(new GestionBoutons());
 		getContentPane().add(btnSimulerCircuit);
 		
-		btnRetourMenu = new JButton("Retour au menu");
+		btnRetourMenu = new JButton("Résultats saison");
 		btnRetourMenu.setVisible(false);
 		btnRetourMenu.setBounds(292, 346, 144, 28);
 		btnRetourMenu.addActionListener(new GestionBoutons());
@@ -311,6 +314,28 @@ public class FenSimulation extends JFrame {
 				hybride.simulerCourse(circuitActuel);
 				lblTempsHybride.setText(hybride.afficherTemps(hybride.getTempsCourse()));
 				
+				String fichier="Donnees/Resultats.txt";
+				FileWriter fw;
+				try {
+					if(numeroCircuit==1)
+						fw= new FileWriter(fichier);
+					else
+						fw= new FileWriter(fichier, true);
+					
+					BufferedWriter bw = new BufferedWriter (fw);
+					PrintWriter fichierSortie = new PrintWriter (bw);
+					
+					fichierSortie.println ("Circuit : "+nomCircuit.getText()); 
+					fichierSortie.println (lblThermique.getText()+"(Therm) :"+lblTempsThermique.getText()); 
+					fichierSortie.println (lblElectrique.getText()+"(Elec) : "+lblTempsElectrique.getText()); 
+					fichierSortie.println (lblHybride.getText()+"(Hybr) : "+lblTempsHybride.getText()); 
+					fichierSortie.println("------------------------------------------------------------");
+					fichierSortie.close(); 
+				}
+				catch (Exception g){
+					System.out.println(g.toString());
+				}
+				
 				if (numeroCircuit < m_listeCircuits.length)
 				{
 					btnCircuitSuivant.setVisible(true);
@@ -342,7 +367,7 @@ public class FenSimulation extends JFrame {
 			{
 				setVisible(false);
 				dispose();
-				new FenPrincipale();
+				new FenRecapitulatif(nomEcurie.getText(),nomSaison.getText());
 			}
 		}
 	}

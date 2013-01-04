@@ -220,7 +220,18 @@ public class Voiture {
 		int heures = (int) (temps/3600);
 		int minutes = (int) (temps/60)%60;
 		int secondes = (int) (temps % 60);
-		return new String(heures + ":" + minutes + ":" + secondes);
+		String m ,s;
+		if(minutes<10)
+			m=new String("0"+minutes);
+		else
+			m=String.valueOf(minutes);
+		if(secondes<10)
+			s=new String("0"+secondes);
+		else
+			s=String.valueOf(secondes);
+
+		
+		return new String(heures + ":" + m + ":" + s);
 	}
 
 }
