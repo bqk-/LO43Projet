@@ -246,7 +246,7 @@ public class Voiture_hybride {
 		
 		if (m_motActuel == 0)
 		{
-			m_motElec.setReservoirActuel((float) (m_motElec.getReservoirActuel()+0.2*(v.getConsoCircuit()*c.getLongueur()/100000)));
+			m_motElec.setReservoirActuel((float) Math.min(m_motElec.getReservoirActuel(),m_motElec.getReservoirActuel()+0.2*(v.getConsoCircuit()*c.getLongueur()/100000)));
 		}
 	}
 	
