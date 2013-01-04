@@ -38,7 +38,7 @@ public class FenDessin extends JDialog {
 	
 	public FenDessin(String nomCircuit) {
 		setTitle("Dessiner un circuit");
-		setSize(300, 437);
+		setSize(300, 387);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -67,7 +67,7 @@ public class FenDessin extends JDialog {
 		getContentPane().add(lblZoneDessin);
 		
 		btnValider = new JButton("Valider");
-		btnValider.setBounds(188, 375, 89, 23);
+		btnValider.setBounds(188, 325, 89, 23);
 		btnValider.setEnabled(false);
 		btnValider.addActionListener(new GestionBoutons());
 		getContentPane().add(btnValider);
@@ -79,11 +79,11 @@ public class FenDessin extends JDialog {
 		
 		lblNbrePointsRestants = new JLabel("Nombre de points restants :");
 		lblNbrePointsRestants.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNbrePointsRestants.setBounds(10, 323, 173, 16);
+		lblNbrePointsRestants.setBounds(10, 273, 173, 16);
 		getContentPane().add(lblNbrePointsRestants);
 		
 		lblPointsRestants = new JLabel("");
-		lblPointsRestants.setBounds(193, 323, 32, 16);
+		lblPointsRestants.setBounds(193, 273, 32, 16);
 		getContentPane().add(lblPointsRestants);
 		
 		setVisible(true);
