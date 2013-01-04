@@ -448,7 +448,7 @@ public class FenEdition extends JFrame {
 		txtNomVoiture = new JTextField();
 		txtNomVoiture.addKeyListener(new FiltreTexte());
 		txtNomVoiture.setColumns(10);
-		txtNomVoiture.setBounds(185, 56, 135, 20);
+		txtNomVoiture.setBounds(226, 56, 135, 20);
 		panVoiture.add(txtNomVoiture);
 		
 	/** Label **/
@@ -459,64 +459,64 @@ public class FenEdition extends JFrame {
 		
 		lblNomVoiture = new JLabel("Nom de la voiture :");
 		lblNomVoiture.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNomVoiture.setBounds(33, 61, 142, 14);
+		lblNomVoiture.setBounds(38, 61, 178, 14);
 		panVoiture.add(lblNomVoiture);
 		
 		lblVMax = new JLabel("Vitesse maximale (km/h) :");
 		lblVMax.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblVMax.setBounds(33, 86, 142, 16);
+		lblVMax.setBounds(38, 86, 178, 16);
 		panVoiture.add(lblVMax);
 		
 		lblTempsPlein = new JLabel("Temps arr\u00EAt pour plein (s) :");
 		lblTempsPlein.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTempsPlein.setBounds(33, 113, 142, 16);
+		lblTempsPlein.setBounds(38, 113, 178, 16);
 		panVoiture.add(lblTempsPlein);
 
 		lblAutonomie = new JLabel("Capacit\u00E9 r\u00E9servoir (L|kWh) :");
 		lblAutonomie.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAutonomie.setBounds(33, 141, 142, 16);
+		lblAutonomie.setBounds(38, 141, 178, 16);
 		panVoiture.add(lblAutonomie);
 
-		lblConso = new JLabel("Consommation/100 km (L|kWh):");
+		lblConso = new JLabel("Consommation/100 km (L|kWh) : ");
 		lblConso.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblConso.setBounds(10, 169, 165, 16);
+		lblConso.setBounds(15, 169, 201, 16);
 		panVoiture.add(lblConso);
 		
 		lblType = new JLabel("Type :");
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblType.setBounds(33, 197, 142, 16);
+		lblType.setBounds(38, 197, 178, 16);
 		panVoiture.add(lblType);
 		
 	/** Spinner **/
 		spinVMax = new JSpinner();
 		spinVMax.setModel(new SpinnerNumberModel(new Integer(100), new Integer(0), null, new Integer(10)));
-		spinVMax.setBounds(185, 82, 57, 20);
+		spinVMax.setBounds(226, 82, 57, 20);
 		panVoiture.add(spinVMax);
 		
 		spinTempsArret = new JSpinner();
 		spinTempsArret.setModel(new SpinnerNumberModel(new Integer(10), new Integer(1), null, new Integer(1)));
-		spinTempsArret.setBounds(185, 109, 57, 20);
+		spinTempsArret.setBounds(226, 109, 57, 20);
 		panVoiture.add(spinTempsArret);
 				
 		spinAutonomie = new JSpinner();
 		spinAutonomie.setModel(new SpinnerNumberModel(new Integer(100), new Integer(1), null, new Integer(10)));
-		spinAutonomie.setBounds(185, 137, 57, 20);
+		spinAutonomie.setBounds(226, 137, 57, 20);
 		panVoiture.add(spinAutonomie);
 	
 		spinConso = new JSpinner();
 		spinConso.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinConso.setBounds(185, 165, 57, 20);
+		spinConso.setBounds(226, 165, 57, 20);
 		panVoiture.add(spinConso);
 		
 	/** RadioButton **/
 		radioVoitTherm = new JRadioButton("Thermique");
 		radioVoitTherm.setMnemonic('1');
-		radioVoitTherm.setBounds(185, 192, 118, 24);
+		radioVoitTherm.setBounds(226, 192, 118, 24);
 		panVoiture.add(radioVoitTherm);
 		
 		radioVoitElec = new JRadioButton("Electrique");
 		radioVoitElec.setMnemonic('2');
-		radioVoitElec.setBounds(185, 220, 118, 24);
+		radioVoitElec.setBounds(226, 220, 118, 24);
 		panVoiture.add(radioVoitElec);
 		
 		ButtonGroup groupType = new ButtonGroup();
@@ -576,22 +576,22 @@ public class FenEdition extends JFrame {
 		
 		lblVMaxHybr = new JLabel("Vitesse maximale (km/h) :");
 		lblVMaxHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblVMaxHybr.setBounds(44, 118, 142, 16);
+		lblVMaxHybr.setBounds(19, 118, 167, 16);
 		panVoitHybr.add(lblVMaxHybr);
 		
 		lblArretStandHybr = new JLabel("Temps arr\u00EAt pour plein (s) :");
 		lblArretStandHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblArretStandHybr.setBounds(44, 145, 142, 16);
+		lblArretStandHybr.setBounds(19, 145, 167, 16);
 		panVoitHybr.add(lblArretStandHybr);
 		
 		lblAutonomieHybr = new JLabel("Capacit\u00E9 r\u00E9servoir (L|kWh) :");
 		lblAutonomieHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAutonomieHybr.setBounds(44, 173, 142, 16);
+		lblAutonomieHybr.setBounds(19, 173, 167, 16);
 		panVoitHybr.add(lblAutonomieHybr);
 		
 		lblConsoHybr = new JLabel("Consommation/100km (L|kWh) :");
 		lblConsoHybr.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblConsoHybr.setBounds(16, 201, 170, 16);
+		lblConsoHybr.setBounds(1, 201, 185, 16);
 		panVoitHybr.add(lblConsoHybr);
 		
 		lblMoteur = new JLabel("Moteur");

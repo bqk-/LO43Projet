@@ -1,0 +1,10 @@
+Circuit : Monaco
+R5 Turbo(Therm) :1:30:02
+Twizzy(Elec) : 2:41:01
+Clio RS(Hybr) : 1:05:36
+------------------------------------------------------------
+Circuit : Silverstone
+R5 Turbo(Therm) :1:42:51
+Twizzy(Elec) : 3:03:50
+Clio RS(Hybr) : 1:15:31
+------------------------------------------------------------
