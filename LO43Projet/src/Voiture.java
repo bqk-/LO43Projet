@@ -154,10 +154,10 @@ public class Voiture {
 		
 		for (int tour = 1; tour <= c.getNbTours(); tour++)
 		{
-			if (autonomieRestante() > c.getPosStand() && autonomieRestante() < c.getLongueur()+c.getPosStand())
+			if (autonomieRestante() < c.getLongueur()+c.getPosStand())
 			{
-				if (!(tour == c.getNbTours() && autonomieRestante() < c.getLongueur()))
-				{					
+				if (!(tour == c.getNbTours() && autonomieRestante() > c.getLongueur()))
+				{			
 					arretStand(c, tour-1);
 				}
 			}

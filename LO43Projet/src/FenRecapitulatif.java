@@ -10,9 +10,13 @@ import java.awt.event.MouseEvent;
 
 
 public class FenRecapitulatif extends JFrame {
+	private static final long serialVersionUID = 1L;
+	
 	private JTextField nomSaison;
 	private JTextField nomEcurie;
 	private JTextArea textArea;
+	private JButton btnRetourAuMenu;
+	
 	public FenRecapitulatif(String ecurie, String saison) {
 		setResizable(false);
 		setSize(440,350);
@@ -47,7 +51,7 @@ public class FenRecapitulatif extends JFrame {
 		separator.setBounds(0, 39, 434, 2);
 		getContentPane().add(separator);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setBounds(10, 51, 414, 232);
 		
 		String fichier="Donnees/Resultats.txt";
@@ -67,7 +71,8 @@ public class FenRecapitulatif extends JFrame {
 		}
 		textArea.setText(chaine);
 		getContentPane().add(textArea);
-		JButton btnRetourAuMenu = new JButton("Retour au menu principal");
+		
+		btnRetourAuMenu = new JButton("Retour au menu principal");
 		btnRetourAuMenu.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent arg0) {
 				setVisible(false);

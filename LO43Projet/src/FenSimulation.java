@@ -40,10 +40,11 @@ public class FenSimulation extends JFrame {
 	private JLabel lblTemps;
 	private JButton btnSimulerCircuit;
 	private JButton btnCircuitSuivant;
-	private JButton btnRetourMenu;
+	private JButton btnResultatSaison;
 	private JLabel lblTempsThermique;
 	private JLabel lblTempsElectrique;
 	private JLabel lblTempsHybride;
+	
 	
 	private int numeroCircuit = 0;
 	private String[] m_listeCircuits;
@@ -147,7 +148,7 @@ public class FenSimulation extends JFrame {
 		getContentPane().add(lblHybride);
 		
 		lblTemps = new JLabel("Temps");
-		lblTemps.setBounds(105, 213, 109, 23);
+		lblTemps.setBounds(105, 213, 50, 23);
 		getContentPane().add(lblTemps);
 				
 		chargerDonnees();
@@ -159,7 +160,7 @@ public class FenSimulation extends JFrame {
 		
 		btnCircuitSuivant = new JButton("Circuit suivant");
 		btnCircuitSuivant.setVisible(false);
-		btnCircuitSuivant.setBounds(292, 346, 144, 28);
+		btnCircuitSuivant.setBounds(290, 346, 144, 28);
 		btnCircuitSuivant.addActionListener(new GestionBoutons());
 		getContentPane().add(btnCircuitSuivant);
 
@@ -169,12 +170,11 @@ public class FenSimulation extends JFrame {
 		btnSimulerCircuit.addActionListener(new GestionBoutons());
 		getContentPane().add(btnSimulerCircuit);
 		
-		btnRetourMenu = new JButton("Résultats saison");
-		btnRetourMenu.setVisible(false);
-		btnRetourMenu.setBounds(292, 346, 144, 28);
-		btnRetourMenu.addActionListener(new GestionBoutons());
-		getContentPane().add(btnRetourMenu);
-		
+		btnResultatSaison = new JButton("Résultats saison");
+		btnResultatSaison.setVisible(false);
+		btnResultatSaison.setBounds(292, 346, 144, 28);
+		btnResultatSaison.addActionListener(new GestionBoutons());
+		getContentPane().add(btnResultatSaison);
 		
 		lblTempsThermique = new JLabel("");
 		lblTempsThermique.setBounds(100, 247, 71, 14);
@@ -187,11 +187,10 @@ public class FenSimulation extends JFrame {
 		lblTempsHybride = new JLabel("");
 		lblTempsHybride.setBounds(100, 306, 71, 14);
 		getContentPane().add(lblTempsHybride);
-		
-
+	
 		setVisible(true);
 	}
-
+		
 	public void chargerDonnees()
 	{
 		File fichier = new File("Donnees/Simulation.txt");
@@ -342,7 +341,7 @@ public class FenSimulation extends JFrame {
 				}
 				else
 				{
-					btnRetourMenu.setVisible(true);
+					btnResultatSaison.setVisible(true);
 				}
 			}
 			else if (e.getSource() == btnCircuitSuivant)
@@ -363,7 +362,7 @@ public class FenSimulation extends JFrame {
 				panZoneDessin.setBounds(0, 0, 298, 200);
 				getContentPane().add(panZoneDessin);
 			}
-			else if (e.getSource() == btnRetourMenu)
+			else if (e.getSource() == btnResultatSaison)
 			{
 				setVisible(false);
 				dispose();
